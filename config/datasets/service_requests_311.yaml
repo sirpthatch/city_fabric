@@ -1,0 +1,63 @@
+name: service_requests_311
+title: 311 Service Requests
+description: >-
+  Every non-emergency request made to NYC 311 (2010-present). Collected as a
+  rolling incremental pull keyed on created_date.
+source:
+  type: socrata
+  domain: data.cityofnewyork.us
+  id: erm2-nwe9
+  select: [unique_key, created_date, closed_date, agency, complaint_type,
+           descriptor, status, incident_zip, borough, latitude, longitude]
+  order: created_date
+
+refresh:
+  strategy: incremental
+  watermark: created_date   # source column used to pull only new rows
+  backfill_days: 90         # history pulled on the first run
+  overlap_days: 7           # re-pull recent rows to capture status/closure updates
+  min_interval_hours: 6
+
+key: unique_key
+
+staging: |
+  SELECT
+    CAST(unique_key AS BIGINT)                        AS key,
+    CAST(created_date AS TIMESTAMP)                   AS created_at,
+    TRY_CAST(closed_date AS TIMESTAMP)                AS closed_at,
+    agency,
+    complaint_type,
+    descriptor,
+    status,
+    ST_Point(CAST(longitude AS DOUBLE), CAST(latitude AS DOUBLE)) AS geom
+  FROM {raw}
+  WHERE latitude IS NOT NULL AND longitude IS NOT NULL
+
+features:
+  - id: sr311_total
+    title: 311 requests (all types)
+    agg: count(*)
+    fill: 0
+    unit: requests
+    normalize: [area]
+
+  - id: sr311_median_days_to_close
+    title: Median days to close
+    agg: median(date_diff('second', created_at, closed_at) / 86400.0)
+    filter: closed_at >= created_at
+    unit: days
+
+  - id: sr311_pct_open
+    title: Share of requests still open
+    agg: avg(CASE WHEN status <> 'Closed' THEN 1.0 ELSE 0.0 END)
+    unit: fraction
+
+  # Expands into one feature per complaint type (the top N citywide).
+  - id: sr311_type
+    title: "311: {value}"
+    group_by: complaint_type
+    top_n: 30
+    agg: count(*)
+    fill: 0
+    unit: requests
+    normalize: [area, share]

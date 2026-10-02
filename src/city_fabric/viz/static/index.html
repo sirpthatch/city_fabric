@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>City Fabric</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+  <link href="/static/style.css" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">CITY<span>/</span>FABRIC</div>
+    <div class="seg" id="levels" role="tablist" aria-label="Geographic level"></div>
+    <div class="topbar-meta" id="meta"></div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel features-panel">
+      <div class="panel-head">
+        <span>Features</span>
+        <span class="muted" id="feature-count"></span>
+      </div>
+      <div class="feature-controls">
+        <input id="feature-search" type="search" placeholder="filter features…" autocomplete="off">
+        <div class="seg seg-sm" id="kind-filter">
+          <button data-kind="all" class="active">all</button>
+          <button data-kind="raw">raw</button>
+          <button data-kind="per_km2">/km²</button>
+          <button data-kind="share">share</button>
+        </div>
+      </div>
+      <div class="feature-list" id="feature-list"></div>
+      <div class="axis-legend muted">click → <b class="x-tag">X</b> (map) · shift+click → <b class="y-tag">Y</b></div>
+    </aside>
+
+    <section class="map-wrap">
+      <div id="map"></div>
+      <div class="map-overlay map-title" id="map-title"></div>
+      <div class="map-overlay map-legend" id="legend"></div>
+      <div class="map-overlay map-scale seg seg-sm" id="scale-mode">
+        <button data-scale="quantile" class="active">quantile</button>
+        <button data-scale="linear">linear</button>
+        <button data-scale="log">log</button>
+      </div>
+      <div class="tooltip" id="tooltip" hidden></div>
+    </section>
+
+    <aside class="panel stats-panel">
+      <section class="card">
+        <div class="card-head"><span><b class="x-tag">X</b> <span id="x-title"></span></span></div>
+        <div class="stat-grid" id="x-stats"></div>
+        <svg id="histogram" class="chart" height="110"></svg>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <span><b class="x-tag">X</b> vs <b class="y-tag">Y</b> <span id="y-title"></span></span>
+          <span class="card-actions">
+            <button id="swap" title="Swap X and Y">⇄</button>
+            <button id="log-axes" title="Log axes">log</button>
+          </span>
+        </div>
+        <div class="stat-grid stat-grid-5" id="xy-stats"></div>
+        <svg id="scatter" class="chart" height="240"></svg>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <span>Top correlates of <b class="x-tag">X</b> <span class="muted">(Spearman ρ)</span></span>
+        </div>
+        <div id="correlates" class="correlates"></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><span>Ranked by <b class="x-tag">X</b></span></div>
+        <table class="rank-table" id="rank-table"></table>
+      </section>
+    </aside>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>

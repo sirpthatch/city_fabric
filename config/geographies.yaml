@@ -1,0 +1,46 @@
+# Geographic levels that features are aggregated to.
+# Each level is a polygon layer from NYC OpenData. `id`, `name`, `borough` are
+# SQL expressions evaluated against the layer's GeoJSON properties.
+levels:
+  borough:
+    title: Borough
+    source: {type: socrata, domain: data.cityofnewyork.us, id: gthc-hcne}
+    id: borocode
+    name: boroname
+    borough: boroname
+
+  community_district:
+    title: Community District
+    source: {type: socrata, domain: data.cityofnewyork.us, id: 5crt-au7u}
+    id: boro_cd
+    name: >-
+      CASE left(boro_cd, 1) WHEN '1' THEN 'MN' WHEN '2' THEN 'BX' WHEN '3' THEN 'BK'
+      WHEN '4' THEN 'QN' WHEN '5' THEN 'SI' END || ' ' || right(boro_cd, 2)
+    borough: >-
+      CASE left(boro_cd, 1) WHEN '1' THEN 'Manhattan' WHEN '2' THEN 'Bronx'
+      WHEN '3' THEN 'Brooklyn' WHEN '4' THEN 'Queens' WHEN '5' THEN 'Staten Island' END
+    # Joint Interest Areas (parks, airports) have district numbers >= 26.
+    exclude: CAST(right(boro_cd, 2) AS INTEGER) >= 26
+
+  nta:
+    title: Neighborhood Tabulation Area (2020)
+    source: {type: socrata, domain: data.cityofnewyork.us, id: 9nt8-h7nd}
+    id: nta2020
+    name: ntaname
+    borough: boroname
+    # ntatype 0 = residential; others are parks, cemeteries, airports, etc.
+    exclude: ntatype <> '0'
+
+  census_tract:
+    title: Census Tract (2020, FIPS GEOID)
+    source: {type: socrata, domain: data.cityofnewyork.us, id: 63ge-mke6}
+    id: geoid
+    name: boroname || ' ' || ctlabel
+    borough: boroname
+
+  zcta:
+    title: Modified ZIP Code Tabulation Area
+    source: {type: socrata, domain: data.cityofnewyork.us, id: pri4-ifjk}
+    id: modzcta
+    name: label
+    borough: "NULL"
