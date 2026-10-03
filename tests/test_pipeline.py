@@ -9,11 +9,13 @@ from city_fabric.geo import assign_geographies, load_boundaries, stage_dataset
 
 @pytest.fixture
 def built(workspace):
+    specs = [workspace["spec"], workspace["people"]]
     with db.connect() as con:
         load_boundaries(con, [workspace["level"]])
-        stage_dataset(con, workspace["spec"])
-        assign_geographies(con, workspace["spec"])
-        build_features(con, [workspace["spec"]])
+        for spec in specs:
+            stage_dataset(con, spec)
+            assign_geographies(con, spec)
+        build_features(con, specs)
         publish_marts(con)
     return pd.read_parquet(paths.MARTS_DIR / "features_district.parquet").set_index("geo_id")
 
@@ -58,3 +60,20 @@ def test_api(built):
     assert client.get("/api/geo/district").json()["type"] == "FeatureCollection"
     assert client.get("/api/features/district", params={"f": "nope"}).status_code == 404
     assert client.get("/").status_code == 200
+
+
+def test_per_capita(built):
+    assert built.loc["A", "acs_population"] == 2000
+    assert built.loc["A", "things_n_per_1k"] == pytest.approx(1000 * 3 / 2000)
+    # B has 100 residents, under the 500 floor: rate suppressed, not 10/1k.
+    assert pd.isna(built.loc["B", "things_n_per_1k"])
+
+
+def test_per_capita_skipped_without_population(workspace):
+    with db.connect() as con:
+        load_boundaries(con, [workspace["level"]])
+        stage_dataset(con, workspace["spec"])
+        assign_geographies(con, workspace["spec"])
+        build_features(con, [workspace["spec"]])
+        feats = {r[0] for r in con.execute("SELECT feature FROM feature_catalog").fetchall()}
+    assert "things_n_per_km2" in feats and "things_n_per_1k" not in feats

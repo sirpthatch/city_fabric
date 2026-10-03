@@ -51,10 +51,27 @@ def workspace(tmp_path, monkeypatch):
                    ST_Point(CAST(lon AS DOUBLE), CAST(lat AS DOUBLE)) AS geom FROM {raw}""",
         features=[
             FeatureSpec(id="things_n", title="Things", agg="count(*)", fill=0,
-                        unit="things", normalize=["area"]),
+                        unit="things", normalize=["area", "capita"]),
             FeatureSpec(id="things_mean_size", title="Mean size", agg="avg(size)"),
             FeatureSpec(id="things_kind", title="Kind: {value}", agg="count(*)", fill=0,
                         group_by="kind", top_n=5, normalize=["share"]),
         ],
     )
-    return {"level": level, "spec": spec}
+    # Tract-like population rows: 2,000 residents in A, 100 (below the floor) in B.
+    raw = paths.RAW_DIR / "people"
+    raw.mkdir(parents=True)
+    pd.DataFrame({
+        "geoid": ["t1", "t2", "t3"],
+        "pop": ["1500", "500", "100"],
+        "lon": ["-73.999", "-73.991", "-73.985"],
+        "lat": ["40.701", "40.709", "40.705"],
+        "_ingested_at": ["2026-01-01T00:00:00+00:00"] * 3,
+    }).to_parquet(raw / "20260101T000000Z.parquet")
+    people = DatasetSpec(
+        name="people", title="People", key="geoid",
+        source=Source("census_acs", vintage=2024, tables=["B01003"], counties=["36061"]),
+        staging="""SELECT geoid AS key, CAST(pop AS DOUBLE) AS pop,
+                   ST_Point(CAST(lon AS DOUBLE), CAST(lat AS DOUBLE)) AS geom FROM {raw}""",
+        features=[FeatureSpec(id="acs_population", title="Population", agg="sum(pop)", fill=0)],
+    )
+    return {"level": level, "spec": spec, "people": people}

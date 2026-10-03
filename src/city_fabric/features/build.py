@@ -24,6 +24,9 @@ from city_fabric.config import DatasetSpec, FeatureSpec
 
 log = logging.getLogger(__name__)
 
+# Denominator for the "capita" normalization (per 1,000 residents).
+POPULATION_FEATURE = "acs_population"
+
 
 def slugify(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", str(value).lower()).strip("_")
@@ -89,9 +92,13 @@ def _emit(frames, catalog, df, fid, title, spec, feat, kind="raw", base=None, un
     })
 
 
-def _emit_with_normalizations(frames, catalog, df, fid, title, spec, feat, totals=None):
+def _emit_with_normalizations(frames, catalog, df, fid, title, spec, feat, totals=None,
+                              per_capita=None):
     _emit(frames, catalog, df, fid, title, spec, feat)
     for norm in feat.normalize:
+        if norm == "capita" and per_capita is not None:
+            # Deferred until every dataset is built, since population comes from ACS.
+            per_capita.append((df, fid, title, spec, feat))
         if norm == "area":
             out = df.assign(value=df["value"] / df["area_km2"])
             _emit(frames, catalog, out, f"{fid}_per_km2", f"{title} per km²", spec, feat,
@@ -104,15 +111,35 @@ def _emit_with_normalizations(frames, catalog, df, fid, title, spec, feat, total
                   kind="share", base=fid, unit="fraction")
 
 
+def _emit_per_capita(frames, catalog, pending, min_population: float = 500) -> None:
+    """Per-1,000-resident rates. Geographies under `min_population` get NULL, since
+    rates over near-empty areas (parks, airports, industrial zones) are noise."""
+    if not pending:
+        return
+    pop = next((f for f in frames if (f["feature"] == POPULATION_FEATURE).any()), None)
+    if pop is None:
+        log.warning("Skipping per-capita features: %s not built (collect acs_tracts)",
+                    POPULATION_FEATURE)
+        return
+    pop = pop[["level", "geo_id", "value"]].rename(columns={"value": "population"})
+    for df, fid, title, spec, feat in pending:
+        m = df.merge(pop, on=["level", "geo_id"], how="left")
+        rate = 1000 * m["value"] / m["population"].where(m["population"] >= min_population)
+        _emit(frames, catalog, m.assign(value=rate), f"{fid}_per_1k", f"{title} per 1k residents",
+              spec, feat, kind="per_capita", base=fid, unit=f"{feat.unit or 'count'}/1k residents")
+
+
 def build_features(con: duckdb.DuckDBPyConnection, specs: list[DatasetSpec]) -> int:
     levels = _levels(con)
     frames: list[pd.DataFrame] = []
     catalog: list[dict] = []
+    per_capita: list[tuple] = []
     for spec in specs:
         for feat in spec.features:
             if feat.group_by is None:
                 df = _aggregate(con, spec, feat, levels)
-                _emit_with_normalizations(frames, catalog, df, feat.id, feat.title, spec, feat)
+                _emit_with_normalizations(frames, catalog, df, feat.id, feat.title, spec, feat,
+                                          per_capita=per_capita)
                 continue
             values = _top_values(con, spec, feat)
             totals = _aggregate(con, spec, feat, levels)[["level", "geo_id", "value"]]
@@ -120,9 +147,11 @@ def build_features(con: duckdb.DuckDBPyConnection, specs: list[DatasetSpec]) -> 
             for value, df in grouped.groupby("grp", sort=False):
                 fid = f"{feat.id}__{slugify(value)}"
                 title = feat.title.format(value=value)
-                _emit_with_normalizations(frames, catalog, df, fid, title, spec, feat, totals)
+                _emit_with_normalizations(frames, catalog, df, fid, title, spec, feat, totals,
+                                          per_capita=per_capita)
         log.info("%s: features built", spec.name)
 
+    _emit_per_capita(frames, catalog, per_capita)
     long = pd.concat(frames, ignore_index=True)
     cat = pd.DataFrame(catalog)
     con.register("_long", long)

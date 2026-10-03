@@ -1,0 +1,105 @@
+name: acs_tracts
+title: American Community Survey (5-year, tracts)
+description: >-
+  Census Bureau ACS 5-year estimates for NYC's 2020 census tracts: population,
+  household income, commute time and mode, rent burden. Each tract is attributed
+  to coarser geographies by an interior point; 2020 NTAs and boroughs nest
+  exactly, community districts nearly, MODZCTAs approximately. Medians for
+  aggregated areas are interpolated from the bracket counts.
+source:
+  type: census_acs
+  vintage: 2024            # 2020-2024 estimates; bump when a new vintage publishes
+  counties: ["36005", "36047", "36061", "36081", "36085"]
+  tables:
+    - B01003   # total population
+    - B19001   # household income brackets
+    - B08303   # travel time to work brackets (excludes work-from-home)
+    - B08013   # aggregate travel time to work (minutes)
+    - B08301   # means of transportation to work
+    - B25070   # gross rent as a percentage of household income
+
+refresh:
+  strategy: full
+  min_interval_hours: 720
+
+key: geoid
+
+# Rows are tracts; the point is the tract's interior point, so the standard
+# point-in-polygon assignment rolls tracts up to every other level.
+staging: |
+  SELECT
+    r.geoid AS key,
+    CAST(COLUMNS('^b\d+_e\d+$') AS DOUBLE),
+    ST_PointOnSurface(g.geom) AS geom
+  FROM {raw} r
+  JOIN geo_boundaries g ON g.level = 'census_tract' AND g.geo_id = r.geoid
+
+features:
+  - id: acs_population
+    title: Population
+    agg: sum(b01003_e001)
+    fill: 0
+    unit: residents
+    normalize: [area]
+
+  - id: acs_median_hh_income
+    title: Median household income
+    description: Interpolated from 16 ACS income brackets (top bracket $200k+).
+    agg: >-
+      binned_median(
+        [sum(b19001_e002), sum(b19001_e003), sum(b19001_e004), sum(b19001_e005),
+         sum(b19001_e006), sum(b19001_e007), sum(b19001_e008), sum(b19001_e009),
+         sum(b19001_e010), sum(b19001_e011), sum(b19001_e012), sum(b19001_e013),
+         sum(b19001_e014), sum(b19001_e015), sum(b19001_e016), sum(b19001_e017)],
+        [0, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000,
+         60000, 75000, 100000, 125000, 150000, 200000, NULL])
+    unit: USD
+
+  - id: acs_pct_hh_income_under_25k
+    title: Share of households earning under $25k
+    agg: (sum(b19001_e002) + sum(b19001_e003) + sum(b19001_e004) + sum(b19001_e005)) / nullif(sum(b19001_e001), 0)
+    unit: fraction
+
+  - id: acs_pct_hh_income_200k_plus
+    title: Share of households earning $200k+
+    agg: sum(b19001_e017) / nullif(sum(b19001_e001), 0)
+    unit: fraction
+
+  - id: acs_mean_commute_min
+    title: Mean commute time
+    description: Workers 16+ who did not work from home.
+    # Only count workers in tracts whose aggregate travel time isn't suppressed.
+    agg: sum(b08013_e001) / nullif(sum(b08303_e001) FILTER (WHERE b08013_e001 IS NOT NULL), 0)
+    unit: minutes
+
+  - id: acs_pct_commute_60min_plus
+    title: Share of commutes 60+ minutes
+    agg: (sum(b08303_e012) + sum(b08303_e013)) / nullif(sum(b08303_e001), 0)
+    unit: fraction
+
+  - id: acs_pct_commute_transit
+    title: Share commuting by public transit
+    agg: sum(b08301_e010) / nullif(sum(b08301_e001), 0)
+    unit: fraction
+
+  - id: acs_pct_commute_drive_alone
+    title: Share commuting by driving alone
+    agg: sum(b08301_e003) / nullif(sum(b08301_e001), 0)
+    unit: fraction
+
+  - id: acs_pct_commute_walk_bike
+    title: Share commuting by walking or bicycle
+    agg: (sum(b08301_e018) + sum(b08301_e019)) / nullif(sum(b08301_e001), 0)
+    unit: fraction
+
+  - id: acs_pct_work_from_home
+    title: Share working from home
+    agg: sum(b08301_e021) / nullif(sum(b08301_e001), 0)
+    unit: fraction
+
+  - id: acs_pct_rent_burdened
+    title: Share of renters paying 30%+ of income on rent
+    agg: >-
+      (sum(b25070_e007) + sum(b25070_e008) + sum(b25070_e009) + sum(b25070_e010))
+      / nullif(sum(b25070_e001) - sum(b25070_e011), 0)
+    unit: fraction

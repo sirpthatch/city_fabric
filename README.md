@@ -33,8 +33,34 @@ features relate to each other.
 
 | Dataset | Source | Refresh | Features |
 |---|---|---|---|
+| `acs_tracts` | Census ACS 5-year 2020–2024, tables B01003, B19001, B08303, B08013, B08301, B25070 | full, per vintage | population (+ density), median household income, income tails, mean commute, 60+ min commutes, commute mode shares, work from home, rent burden |
 | `forestry_trees` | Forestry Tree Points [hn5i-inap](https://data.cityofnewyork.us/d/hn5i-inap) | full | live trees, planted in last 5y, stumps, mean DBH, % poor, species richness |
-| `service_requests_311` | 311 Service Requests [erm2-nwe9](https://data.cityofnewyork.us/d/erm2-nwe9) | incremental on `created_date` (90-day backfill, 7-day overlap) | total, median days to close, % open, and the top 30 complaint types (count, /km², share) |
+| `service_requests_311` | 311 Service Requests [erm2-nwe9](https://data.cityofnewyork.us/d/erm2-nwe9) | incremental on `created_date` (90-day backfill, 7-day overlap) | total, median days to close, % open, top 30 complaint types |
+| `restaurant_inspections` | DOHMH Restaurant Inspections [43nn-pn8j](https://data.cityofnewyork.us/d/43nn-pn8j) | full | restaurants, % graded A, mean latest score, critical violations per restaurant, cuisine richness, top 15 cuisine shares |
+| `public_restrooms` | Public Restrooms [i7jb-7jku](https://data.cityofnewyork.us/d/i7jb-7jku) | full | operational restrooms, library restrooms, % with changing station |
+| `wifi_hotspots` | NYC Wi-Fi Hotspot Locations [yjub-udmw](https://data.cityofnewyork.us/d/yjub-udmw) (LinkNYC excluded) | full | free hotspots, all hotspots |
+| `linknyc_kiosks` | LinkNYC Kiosk Locations [s4kf-3yrf](https://data.cityofnewyork.us/d/s4kf-3yrf) | full | live kiosks, Link5G towers |
+
+Count features can be normalized by `area` (`_per_km2`), `capita` (`_per_1k`, per 1,000 ACS residents)
+and `share` (within-geography share for `group_by` features). Per-capita rates are left NULL for
+geographies with fewer than 500 residents (parks, airports, industrial areas), where rates would be noise.
+
+**Density vs. per-capita:** per-km² features largely measure population density, because denser places
+have more of everything. Use `_per_1k` rates, or control for `acs_population_per_km2`, before you read
+meaning into a correlation. `02_correlation_regression.ipynb` shows the effect.
+
+### ACS methodology
+
+- **Source:** Census table-based summary files (keyless bulk download, filtered to NYC tracts), not the
+  Census API, which now requires a key. To move to a new vintage, change `vintage` in `acs_tracts.yaml`.
+- **Suppressed estimates:** negative annotation codes such as `-666666666` are stored as NULL. Ratio
+  features restrict their denominators to tracts where the numerator is reported.
+- **Rolling up tracts:** each tract is assigned to coarser levels by its interior point (`ST_PointOnSurface`).
+  2020 NTAs and boroughs nest exactly, community districts nearly, and MODZCTAs approximately. Population
+  totals are 8.48M at every level except NTA (−0.1%, residents of non-residential NTAs).
+- **Medians:** these are interpolated from the 16 income brackets with `binned_median()`, so they are
+  consistent across levels. Borough results come within 1% of the official B19013 values. The top bracket
+  is open-ended ($200k+), so the median is capped at $200,000 (70 of 2,231 tracts).
 
 ## Quickstart
 
@@ -43,7 +69,7 @@ python3.13 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[analysis,dev]"
 
-cf run            # boundaries → collect → build   (first run: ~10 min, mostly the API pull)
+cf run            # boundaries → collect → build   (first run: ~12 min, mostly the API pull)
 cf serve          # http://127.0.0.1:8000
 jupyter lab notebooks/
 ```
@@ -108,9 +134,8 @@ data/                         (gitignored)
 
 ## Roadmap
 
-- Remaining starter features: restaurant inspection grades, public restrooms, public Wi-Fi hotspots
-  (point datasets: config only); median income and commute time (Census ACS at the tract level, which
-  needs a polygon-native source type and area/population-weighted crosswalks to the other levels).
-- Population denominators (ACS) for per-capita normalization.
-- Time-sliced features (monthly 311 volumes) and change-over-time views.
+- Time-sliced features (monthly 311 volumes, planting by year) and change-over-time views.
+- Areal-weighted crosswalks for ACS → ZCTA and community districts, instead of interior-point assignment.
+- ACS margins of error, so features can carry reliability flags.
+- Feature derivations across datasets (e.g. combined Wi-Fi access points = hotspots + LinkNYC).
 - Points layer and bivariate choropleth in the map.

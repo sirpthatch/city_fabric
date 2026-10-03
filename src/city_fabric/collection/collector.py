@@ -19,7 +19,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 
 from city_fabric import paths
-from city_fabric.collection import socrata
+from city_fabric.collection import census, socrata
 from city_fabric.config import DatasetSpec
 
 log = logging.getLogger(__name__)
@@ -66,14 +66,19 @@ def _write_pages(spec: DatasetSpec, pages, dest) -> tuple[int, str | None]:
     return rows, max_wm
 
 
+def _metadata(spec: DatasetSpec) -> dict:
+    if spec.source.type == "socrata":
+        return socrata.metadata(spec.source.domain, spec.source.id)
+    if spec.source.type == "census_acs":
+        return census.metadata(spec.source)
+    raise NotImplementedError(f"Source type {spec.source.type!r} is not supported")
+
+
 def collect(spec: DatasetSpec, force: bool = False) -> dict:
     """Refresh one dataset if it is due. Returns the updated state entry."""
-    if spec.source.type != "socrata":
-        raise NotImplementedError(f"Source type {spec.source.type!r} is not supported yet")
-
     state = _load_state()
     entry = state.get(spec.name, {})
-    meta = socrata.metadata(spec.source.domain, spec.source.id)
+    meta = _metadata(spec)
 
     if not force and entry.get("last_run"):
         since = _now() - datetime.fromisoformat(entry["last_run"])
@@ -90,6 +95,8 @@ def collect(spec: DatasetSpec, force: bool = False) -> dict:
     dest = out_dir / f"{run_at.strftime('%Y%m%dT%H%M%SZ')}.parquet"
 
     where = spec.source.where
+    if spec.refresh.strategy == "incremental" and spec.source.type != "socrata":
+        raise ValueError(f"{spec.name}: incremental refresh is only supported for socrata")
     if spec.refresh.strategy == "incremental":
         if not spec.refresh.watermark:
             raise ValueError(f"{spec.name}: incremental refresh requires a watermark column")
@@ -104,12 +111,16 @@ def collect(spec: DatasetSpec, force: bool = False) -> dict:
     elif spec.refresh.strategy != "full":
         raise ValueError(f"{spec.name}: unknown refresh strategy {spec.refresh.strategy!r}")
 
-    log.info("%s: collecting from %s/%s where %s", spec.name, spec.source.domain,
-             spec.source.id, where or "<all>")
-    pages = socrata.iter_pages(
-        spec.source.domain, spec.source.id,
-        select=spec.source.select, where=where, order=spec.source.order,
-    )
+    if spec.source.type == "census_acs":
+        log.info("%s: collecting %s", spec.name, meta["name"])
+        pages = census.iter_pages(spec.source)
+    else:
+        log.info("%s: collecting from %s/%s where %s", spec.name, spec.source.domain,
+                 spec.source.id, where or "<all>")
+        pages = socrata.iter_pages(
+            spec.source.domain, spec.source.id,
+            select=spec.source.select, where=where, order=spec.source.order,
+        )
     rows, max_wm = _write_pages(spec, pages, dest)
 
     if spec.refresh.strategy == "full" and rows:
@@ -136,7 +147,7 @@ def collection_status(specs: list[DatasetSpec]) -> list[dict]:
     out = []
     for spec in specs:
         entry = state.get(spec.name, {})
-        meta = socrata.metadata(spec.source.domain, spec.source.id)
+        meta = _metadata(spec)
         files = list((paths.RAW_DIR / spec.name).glob("*.parquet"))
         out.append({
             "dataset": spec.name,

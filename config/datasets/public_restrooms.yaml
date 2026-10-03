@@ -1,0 +1,53 @@
+name: public_restrooms
+title: Public Restrooms
+description: >-
+  Public restrooms operated by NYC Parks, the public libraries and other city
+  partners (parks, libraries, plazas, POPS, transit).
+source:
+  type: socrata
+  domain: data.cityofnewyork.us
+  id: i7jb-7jku
+  select: [facility_name, location_type, operator, status, changing_stations,
+           latitude, longitude]
+  order: facility_name
+
+refresh:
+  strategy: full
+  min_interval_hours: 168
+
+key: facility_name
+
+# No stable unique id in the source, so rows are numbered.
+staging: |
+  SELECT
+    row_number() OVER (ORDER BY facility_name, latitude, longitude) AS key,
+    facility_name,
+    location_type,
+    operator,
+    status,
+    changing_stations = 'Yes'                                       AS has_changing_station,
+    ST_Point(CAST(longitude AS DOUBLE), CAST(latitude AS DOUBLE))   AS geom
+  FROM {raw}
+  WHERE latitude IS NOT NULL AND longitude IS NOT NULL
+
+features:
+  - id: restrooms_operational
+    title: Operational public restrooms
+    agg: count(*)
+    filter: status = 'Operational'
+    fill: 0
+    unit: restrooms
+    normalize: [area, capita]
+
+  - id: restrooms_library
+    title: Library restrooms
+    agg: count(*)
+    filter: location_type = 'Library' AND status = 'Operational'
+    fill: 0
+    unit: restrooms
+
+  - id: restrooms_pct_changing_station
+    title: Share of restrooms with a changing station
+    agg: avg(CASE WHEN has_changing_station THEN 1.0 ELSE 0.0 END)
+    filter: status = 'Operational'
+    unit: fraction

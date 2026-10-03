@@ -11,8 +11,8 @@
   const N_CLASSES = 7;
   const PALETTE = d3.quantize(t => d3.interpolateViridis(0.08 + t * 0.92), N_CLASSES);
   const NODATA = getComputedStyle(document.documentElement).getPropertyValue("--nodata").trim();
-  const DEFAULT_X = "trees_live_per_km2";
-  const DEFAULT_Y = "sr311_total_per_km2";
+  const DEFAULT_X = "acs_median_hh_income";
+  const DEFAULT_Y = "trees_live_per_1k";
 
   const state = {
     manifest: null,
@@ -123,6 +123,11 @@
   });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
   const mapReady = new Promise(res => map.on("load", res));
+  // Resolves once the choropleth source/layers exist; labels load afterwards, above them.
+  const geoLayersReady = mapReady.then(() => {
+    setupGeoLayers();
+    addLabelLayer();
+  });
 
   async function addLabelLayer() {
     // Overlay place labels from the labeled Carto style above the choropleth.
@@ -371,7 +376,7 @@
         const row = document.createElement("div");
         row.className = "feature-row" + (f.feature === state.x ? " is-x" : "") + (f.feature === state.y ? " is-y" : "");
         row.title = `${f.feature}\nunit: ${f.unit ?? "—"}`;
-        const kind = { raw: "", per_km2: "/km²", share: "share" }[f.kind] ?? f.kind;
+        const kind = { raw: "", per_km2: "/km²", per_capita: "/1k", share: "share" }[f.kind] ?? f.kind;
         const tag = f.feature === state.x ? `<b class="x-tag">X</b>` : f.feature === state.y ? `<b class="y-tag">Y</b>` : kind;
         row.innerHTML = `<span class="title">${f.title}</span><span class="kind">${tag}</span>`;
         row.onclick = e => setAxes(e.shiftKey ? { y: f.feature } : { x: f.feature });
@@ -397,12 +402,13 @@
     writeHash();
     renderFeatureList();
     await loadData();
-    await mapReady;
-    renderMap();
+    // Panels don't depend on the basemap; a slow tile CDN shouldn't block analysis.
     renderXStats();
     renderScatter();
     renderRankTable();
     renderCorrelates().catch(e => { $("#correlates").innerHTML = `<div class="muted">${e.message}</div>`; });
+    await geoLayersReady;
+    renderMap();
   }
 
   function setAxes({ x, y }) {
@@ -458,7 +464,9 @@
     $("#meta").textContent = `${state.manifest.features.length} features · ${state.manifest.datasets.length} datasets · built ${state.manifest.built_at.replace("T", " ").slice(0, 16)}Z`;
 
     bindSeg("#levels", "level", v => { state.level = v; render(); });
-    bindSeg("#scale-mode", "scale", v => { state.scale = v; writeHash(); renderMap(); renderXStats(); });
+    bindSeg("#scale-mode", "scale", v => {
+      state.scale = v; writeHash(); renderXStats(); geoLayersReady.then(renderMap);
+    });
     bindSeg("#kind-filter", "kind", v => { state.kindFilter = v; renderFeatureList(); });
     $("#feature-search").addEventListener("input", e => { state.search = e.target.value; renderFeatureList(); });
     $("#swap").onclick = () => setAxes({ x: state.y, y: state.x });
@@ -469,10 +477,6 @@
     };
     window.addEventListener("resize", () => { renderScatter(); renderXStats(); });
 
-    mapReady.then(async () => {
-      setupGeoLayers();
-      await addLabelLayer();
-    });
     await render();
   }
 

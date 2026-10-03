@@ -1,0 +1,44 @@
+name: linknyc_kiosks
+title: LinkNYC Kiosk Locations
+description: >-
+  LinkNYC kiosks, which provide free gigabit Wi-Fi, phone calls and device
+  charging. Includes the newer Link5G towers.
+source:
+  type: socrata
+  domain: data.cityofnewyork.us
+  id: s4kf-3yrf
+  select: [link_site_id, planned_kiosk_type, link_installation_status,
+           link_smoke_tested_and_activated_a, latitude, longitude]
+  order: link_site_id
+
+refresh:
+  strategy: full
+  min_interval_hours: 168
+
+key: link_site_id
+
+staging: |
+  SELECT
+    link_site_id                                                    AS key,
+    planned_kiosk_type                                              AS kiosk_type,
+    link_installation_status                                        AS status,
+    TRY_CAST(link_smoke_tested_and_activated_a AS TIMESTAMP)        AS activated_at,
+    ST_Point(CAST(longitude AS DOUBLE), CAST(latitude AS DOUBLE))   AS geom
+  FROM {raw}
+  WHERE latitude IS NOT NULL AND longitude IS NOT NULL
+
+features:
+  - id: linknyc_kiosks
+    title: Live LinkNYC kiosks
+    agg: count(*)
+    filter: status = 'Live'
+    fill: 0
+    unit: kiosks
+    normalize: [area, capita]
+
+  - id: linknyc_5g
+    title: Live Link5G towers
+    agg: count(*)
+    filter: status = 'Live' AND upper(kiosk_type) LIKE 'LINK5G%'
+    fill: 0
+    unit: towers

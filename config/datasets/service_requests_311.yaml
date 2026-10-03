@@ -39,7 +39,7 @@ features:
     agg: count(*)
     fill: 0
     unit: requests
-    normalize: [area]
+    normalize: [area, capita]
 
   - id: sr311_median_days_to_close
     title: Median days to close
@@ -60,4 +60,4 @@ features:
     agg: count(*)
     fill: 0
     unit: requests
-    normalize: [area, share]
+    normalize: [area, share, capita]

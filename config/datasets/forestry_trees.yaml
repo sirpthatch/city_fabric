@@ -40,7 +40,7 @@ features:
     filter: structure = 'Full' AND condition <> 'Dead'
     fill: 0
     unit: trees
-    normalize: [area]
+    normalize: [area, capita]
 
   - id: trees_planted_5y
     title: Trees planted, last 5 years
@@ -48,7 +48,7 @@ features:
     filter: planted_at >= current_date - INTERVAL 5 YEAR
     fill: 0
     unit: trees
-    normalize: [area]
+    normalize: [area, capita]
 
   - id: trees_stumps
     title: Stumps (unreplaced removals)
@@ -56,7 +56,7 @@ features:
     filter: structure LIKE 'Stump%'
     fill: 0
     unit: stumps
-    normalize: [area]
+    normalize: [area, capita]
 
   - id: trees_mean_dbh
     title: Mean trunk diameter (live)

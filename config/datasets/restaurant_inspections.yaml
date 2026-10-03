@@ -1,0 +1,94 @@
+name: restaurant_inspections
+title: DOHMH Restaurant Inspection Results
+description: >-
+  Health Department inspections of every active NYC restaurant (last ~3 years of
+  inspections, one row per violation). Staged to one row per restaurant with its
+  latest letter grade, latest cycle-inspection score and recent critical violations.
+source:
+  type: socrata
+  domain: data.cityofnewyork.us
+  id: 43nn-pn8j
+  select: [camis, dba, cuisine_description, inspection_date, inspection_type,
+           critical_flag, score, grade, grade_date, latitude, longitude]
+  order: camis
+
+refresh:
+  strategy: full
+  min_interval_hours: 24
+
+key: camis
+
+staging: |
+  WITH r AS (
+    SELECT
+      CAST(camis AS BIGINT)                   AS camis,
+      dba,
+      cuisine_description                     AS cuisine,
+      TRY_CAST(inspection_date AS TIMESTAMP)  AS inspected_at,
+      TRY_CAST(grade_date AS TIMESTAMP)       AS graded_at,
+      TRY_CAST(score AS INTEGER)              AS score,
+      grade,
+      critical_flag,
+      inspection_type,
+      -- Ungeocoded rows carry 0 or out-of-city coordinates.
+      CASE WHEN TRY_CAST(latitude AS DOUBLE) BETWEEN 40.4 AND 41.0
+           AND TRY_CAST(longitude AS DOUBLE) BETWEEN -74.3 AND -73.6
+           THEN ST_Point(CAST(longitude AS DOUBLE), CAST(latitude AS DOUBLE)) END AS pt
+    FROM {raw}
+  )
+  SELECT
+    camis                                                        AS key,
+    any_value(dba)                                               AS dba,
+    any_value(cuisine)                                           AS cuisine,
+    -- 1900-01-01 marks restaurants not yet inspected.
+    max(inspected_at) FILTER (WHERE inspected_at > '1901-01-01') AS last_inspected_at,
+    arg_max(score, inspected_at) FILTER (
+      WHERE score IS NOT NULL AND inspection_type LIKE 'Cycle Inspection%') AS latest_score,
+    arg_max(grade, graded_at) FILTER (WHERE grade IN ('A', 'B', 'C'))       AS latest_grade,
+    count(*) FILTER (
+      WHERE critical_flag = 'Critical'
+        AND inspected_at >= current_date - INTERVAL 3 YEAR)      AS critical_violations_3y,
+    any_value(pt)                                                AS geom
+  FROM r
+  GROUP BY camis
+  HAVING any_value(pt) IS NOT NULL
+
+features:
+  - id: restaurants
+    title: Restaurants
+    agg: count(*)
+    fill: 0
+    unit: restaurants
+    normalize: [area, capita]
+
+  - id: restaurants_pct_grade_a
+    title: Share of restaurants graded A
+    agg: avg(CASE WHEN latest_grade = 'A' THEN 1.0 ELSE 0.0 END)
+    filter: latest_grade IS NOT NULL
+    unit: fraction
+
+  - id: restaurants_mean_score
+    title: Mean latest inspection score (lower is cleaner)
+    agg: avg(latest_score)
+    unit: points
+
+  - id: restaurants_critical_per_restaurant
+    title: Critical violations per restaurant, last 3 years
+    agg: avg(critical_violations_3y)
+    filter: last_inspected_at IS NOT NULL
+    unit: violations
+
+  - id: restaurants_cuisine_richness
+    title: Distinct cuisines
+    agg: count(DISTINCT cuisine)
+    fill: 0
+    unit: cuisines
+
+  - id: restaurants_cuisine
+    title: "Cuisine: {value}"
+    group_by: cuisine
+    top_n: 15
+    agg: count(*)
+    fill: 0
+    unit: restaurants
+    normalize: [share]

@@ -1,0 +1,45 @@
+name: wifi_hotspots
+title: NYC Wi-Fi Hotspot Locations
+description: >-
+  Public Wi-Fi hotspots from DoITT (parks, libraries, transit, BIDs, cable
+  providers). The source was last updated in 2019, so LinkNYC kiosks are
+  excluded here in favor of the current linknyc_kiosks dataset.
+source:
+  type: socrata
+  domain: data.cityofnewyork.us
+  id: yjub-udmw
+  select: [objectid, type, provider, location_t, latitude, longitude]
+  where: provider <> 'LinkNYC - Citybridge'
+  order: objectid
+
+refresh:
+  strategy: full
+  min_interval_hours: 168
+
+key: objectid
+
+staging: |
+  SELECT
+    CAST(objectid AS BIGINT)                                        AS key,
+    type,
+    provider,
+    location_t                                                      AS location_type,
+    ST_Point(CAST(longitude AS DOUBLE), CAST(latitude AS DOUBLE))   AS geom
+  FROM {raw}
+  WHERE latitude IS NOT NULL AND longitude IS NOT NULL
+
+features:
+  - id: wifi_free_hotspots
+    title: Free Wi-Fi hotspots (non-LinkNYC)
+    agg: count(*)
+    filter: type = 'Free'
+    fill: 0
+    unit: hotspots
+    normalize: [area, capita]
+
+  - id: wifi_hotspots_all
+    title: Wi-Fi hotspots incl. limited-free (non-LinkNYC)
+    agg: count(*)
+    fill: 0
+    unit: hotspots
+    normalize: [area]

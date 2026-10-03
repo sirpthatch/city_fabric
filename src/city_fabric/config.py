@@ -12,12 +12,15 @@ from city_fabric import paths
 
 @dataclass
 class Source:
-    type: str
-    domain: str
-    id: str
+    type: str                      # "socrata" | "census_acs"
+    domain: str | None = None      # socrata
+    id: str | None = None          # socrata
     select: list[str] | None = None
     order: str | None = None
     where: str | None = None
+    vintage: int | None = None     # census_acs: end year of the 5-year estimates
+    tables: list[str] | None = None
+    counties: list[str] | None = None  # census_acs: 5-digit state+county FIPS
 
 
 @dataclass
@@ -37,7 +40,7 @@ class FeatureSpec:
     filter: str | None = None
     fill: float | None = None
     unit: str | None = None
-    normalize: list[str] = field(default_factory=list)  # "area", "share"
+    normalize: list[str] = field(default_factory=list)  # "area", "share", "capita"
     group_by: str | None = None
     top_n: int = 20
     description: str | None = None
