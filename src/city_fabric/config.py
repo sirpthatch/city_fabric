@@ -51,7 +51,7 @@ class DatasetSpec:
     name: str
     title: str
     source: Source
-    key: str
+    key: str | list[str]  # raw row identity; a list for composite keys
     staging: str
     refresh: Refresh = field(default_factory=Refresh)
     features: list[FeatureSpec] = field(default_factory=list)

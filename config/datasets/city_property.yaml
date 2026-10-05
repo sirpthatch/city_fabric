@@ -1,0 +1,69 @@
+name: city_property
+title: City Owned and Leased Property (COLP)
+description: >-
+  Tax lots owned or leased by the City of New York, from DCP's COLP, with the
+  managing agency and current use category.
+source:
+  type: socrata
+  domain: data.cityofnewyork.us
+  id: fn4k-qyk2
+  select: [bbl, parcel_name, agency, use_type, excatdesc, leased_properties,
+           non_city_ownership, latitude, longitude]
+  order: bbl
+
+refresh:
+  strategy: full
+  min_interval_hours: 168
+
+key: bbl
+
+staging: |
+  SELECT
+    row_number() OVER (ORDER BY bbl, agency, use_type)             AS key,
+    bbl,
+    parcel_name,
+    agency,
+    use_type,
+    excatdesc                                                      AS category,
+    leased_properties = 'L'                                        AS is_leased,
+    ST_Point(CAST(longitude AS DOUBLE), CAST(latitude AS DOUBLE))  AS geom
+  FROM {raw}
+  WHERE latitude IS NOT NULL AND longitude IS NOT NULL
+
+features:
+  - id: city_lots
+    title: City-owned or leased lots
+    agg: count(*)
+    fill: 0
+    unit: lots
+    normalize: [area, capita]
+
+  - id: city_lots_owned
+    title: City-owned lots
+    agg: count(*)
+    filter: NOT coalesce(is_leased, false)
+    fill: 0
+    unit: lots
+    normalize: [area]
+
+  - id: city_lots_no_use
+    title: City lots with no current use
+    agg: count(*)
+    filter: category = 'PROPERTY WITH NO USE'
+    fill: 0
+    unit: lots
+    normalize: [area]
+
+  - id: city_lots_pct_leased
+    title: Share of city property that is leased (not owned)
+    agg: avg(CASE WHEN is_leased THEN 1.0 ELSE 0.0 END)
+    unit: fraction
+
+  - id: city_lots_category
+    title: "City property: {value}"
+    group_by: category
+    top_n: 9
+    agg: count(*)
+    fill: 0
+    unit: lots
+    normalize: [share]

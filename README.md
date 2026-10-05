@@ -40,6 +40,13 @@ features relate to each other.
 | `public_restrooms` | Public Restrooms [i7jb-7jku](https://data.cityofnewyork.us/d/i7jb-7jku) | full | operational restrooms, library restrooms, % with changing station |
 | `wifi_hotspots` | NYC Wi-Fi Hotspot Locations [yjub-udmw](https://data.cityofnewyork.us/d/yjub-udmw) (LinkNYC excluded) | full | free hotspots, all hotspots |
 | `linknyc_kiosks` | LinkNYC Kiosk Locations [s4kf-3yrf](https://data.cityofnewyork.us/d/s4kf-3yrf) | full | live kiosks, Link5G towers |
+| `affordable_housing` | HPD Affordable Housing Production by Building [hg8x-zxpr](https://data.cityofnewyork.us/d/hg8x-zxpr) | full | affordable units, new vs. preservation, AMI-band mix, 3+ BR share, rental share |
+| `grocery_stores` | NYS Retail Food Stores [9a8c-vfzj](https://data.ny.gov/d/9a8c-vfzj) (NYC counties) | full | food stores, grocery (2,500+ sq ft), supermarkets (10,000+ sq ft), bodega-scale share, floor area |
+| `facilities` | DCP Facilities Database [ji82-xba5](https://data.cityofnewyork.us/d/ji82-xba5) | full | schools by level/sector, public school seats, city facilities and their domain mix, libraries |
+| `city_property` | City Owned and Leased Property [fn4k-qyk2](https://data.cityofnewyork.us/d/fn4k-qyk2) | full | city lots, owned, no current use, leased share, use-category mix |
+| `dob_permits` | DOB NOW Approved Permits [rbx6-tga4](https://data.cityofnewyork.us/d/rbx6-tga4) | incremental on `issued_date` (2-year backfill) | trailing-12-month initial permits, job cost (once per job), work-type mix |
+| `dob_job_filings` | DOB NOW Job Application Filings [w9ak-ipjd](https://data.cityofnewyork.us/d/w9ak-ipjd) | full | trailing-5-year new buildings, demolitions, net new units, median stories |
+| `landmarks` | LPC Landmark & Historic District Buildings [gpmc-yuvp](https://data.cityofnewyork.us/d/gpmc-yuvp) | full | protected buildings, individual landmarks, historic districts, median build year |
 
 Count features can be normalized by `area` (`_per_km2`), `capita` (`_per_1k`, per 1,000 ACS residents)
 and `share` (within-geography share for `group_by` features). Per-capita rates are left NULL for
@@ -97,7 +104,7 @@ title: Public Restrooms
 source: {type: socrata, domain: data.cityofnewyork.us, id: xxxx-xxxx,
          select: [facility_id, status, latitude, longitude]}
 refresh: {strategy: full, min_interval_hours: 168}
-key: facility_id
+key: facility_id                 # raw row identity; a list for composite keys
 staging: |                       # {raw} = deduplicated raw rows (all strings)
   SELECT facility_id AS key, status,
          ST_Point(CAST(longitude AS DOUBLE), CAST(latitude AS DOUBLE)) AS geom
@@ -131,6 +138,8 @@ data/                         (gitignored)
   marts/                      features_<level>.parquet, geo_<level>.geojson, manifest.json
   collection_state.json       last run, source timestamp, watermark per dataset
 ```
+
+The dataset wishlist lives in `data.to.explore.md`.
 
 ## Roadmap
 

@@ -1,0 +1,67 @@
+name: grocery_stores
+title: NYS Retail Food Stores (NYC)
+description: >-
+  State Department of Agriculture & Markets licensed retail food stores in the
+  five boroughs, from bodegas to supermarkets. Size classes use the reported
+  square footage (missing for ~23% of stores, which count only toward the total).
+source:
+  type: socrata
+  domain: data.ny.gov
+  id: 9a8c-vfzj
+  select: [license_number, county, estab_type, dba_name, square_footage, georeference]
+  where: county in ('KINGS', 'BRONX', 'NEW YORK', 'QUEENS', 'RICHMOND')
+  order: license_number
+
+refresh:
+  strategy: full
+  min_interval_hours: 168
+
+key: license_number
+
+staging: |
+  SELECT
+    license_number                                   AS key,
+    dba_name,
+    estab_type,
+    TRY_CAST(square_footage AS DOUBLE)               AS sqft,
+    ST_GeomFromText(georeference)                    AS geom
+  FROM {raw}
+  WHERE georeference IS NOT NULL
+
+features:
+  - id: food_stores
+    title: Retail food stores (all sizes)
+    agg: count(*)
+    fill: 0
+    unit: stores
+    normalize: [area, capita]
+
+  - id: grocery_stores
+    title: Grocery stores (2,500+ sq ft)
+    agg: count(*)
+    filter: sqft >= 2500
+    fill: 0
+    unit: stores
+    normalize: [area, capita]
+
+  - id: supermarkets
+    title: Supermarkets (10,000+ sq ft)
+    agg: count(*)
+    filter: sqft >= 10000
+    fill: 0
+    unit: stores
+    normalize: [area, capita]
+
+  - id: food_stores_pct_small
+    title: Share of food stores under 2,500 sq ft (bodega-scale)
+    agg: avg(CASE WHEN sqft < 2500 THEN 1.0 ELSE 0.0 END)
+    filter: sqft > 0
+    unit: fraction
+
+  - id: food_retail_sqft
+    title: Food retail floor area
+    agg: sum(sqft)
+    filter: sqft > 0
+    fill: 0
+    unit: sq ft
+    normalize: [capita]

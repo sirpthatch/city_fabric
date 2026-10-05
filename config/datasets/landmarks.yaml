@@ -1,0 +1,69 @@
+name: landmarks
+title: LPC Individual Landmark & Historic District Buildings
+description: >-
+  Landmarks Preservation Commission database of every building that is an
+  individual landmark or sits within a historic district, with construction
+  date, style and original use. Building footprints are reduced to centroids.
+source:
+  type: socrata
+  domain: data.cityofnewyork.us
+  id: gpmc-yuvp
+  select: [bin, bbl, hist_dist, date_low, style_prim, build_type, the_geom]
+  order: bbl
+
+refresh:
+  strategy: full
+  min_interval_hours: 720
+
+key: bin
+
+staging: |
+  SELECT
+    row_number() OVER (ORDER BY bbl, bin)                          AS key,
+    bin,
+    hist_dist                                                      AS district,
+    hist_dist = 'Individual Landmark'                              AS is_individual,
+    -- 0 = unknown construction date.
+    nullif(TRY_CAST(date_low AS INTEGER), 0)                       AS built_year,
+    style_prim                                                     AS style,
+    build_type,
+    ST_Centroid(ST_GeomFromText(the_geom))                         AS geom
+  FROM {raw}
+  WHERE the_geom IS NOT NULL
+
+features:
+  - id: lpc_buildings
+    title: Landmark-protected buildings (individual or historic district)
+    agg: count(*)
+    fill: 0
+    unit: buildings
+    normalize: [area, capita]
+
+  - id: lpc_individual_landmarks
+    title: Individual landmarks
+    agg: count(*)
+    filter: is_individual
+    fill: 0
+    unit: buildings
+    normalize: [area]
+
+  - id: lpc_historic_district_buildings
+    title: Buildings in historic districts
+    agg: count(*)
+    filter: NOT is_individual
+    fill: 0
+    unit: buildings
+    normalize: [area]
+
+  - id: lpc_historic_districts
+    title: Distinct historic districts
+    agg: count(DISTINCT district)
+    filter: NOT is_individual
+    fill: 0
+    unit: districts
+
+  - id: lpc_median_built_year
+    title: Median construction year of protected buildings
+    agg: median(built_year)
+    filter: built_year BETWEEN 1600 AND 2030
+    unit: year

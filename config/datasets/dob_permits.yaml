@@ -1,0 +1,85 @@
+name: dob_permits
+title: DOB NOW Approved Construction Permits
+description: >-
+  Work permits issued through DOB NOW: Build. The source has one row per work
+  type on a permit (a permit authorizing foundation + structural work appears
+  twice), and the job's estimated cost repeats on every row of every permit in
+  the job. Features count distinct permits and count each job's cost once.
+  Features cover the trailing 12 months. Legacy BIS permits (ipu4-2q9a, ~6% of
+  2025 volume, older jobs) are not included.
+source:
+  type: socrata
+  domain: data.cityofnewyork.us
+  id: rbx6-tga4
+  select: [job_filing_number, work_permit, sequence_number, filing_reason, work_type,
+           issued_date, estimated_job_costs, permit_status, latitude, longitude]
+  order: issued_date
+
+refresh:
+  strategy: incremental
+  watermark: issued_date
+  backfill_days: 730       # 12-month features need a year of look-back to spot jobs already underway
+  overlap_days: 7
+  min_interval_hours: 24
+
+key: [work_permit, sequence_number, work_type]
+
+staging: |
+  WITH p AS (
+    SELECT
+      work_permit || '-' || coalesce(sequence_number, '0') || '-' || coalesce(work_type, '') AS key,
+      work_permit,
+      job_filing_number,
+      filing_reason,
+      work_type,
+      TRY_CAST(issued_date AS TIMESTAMP)                             AS issued_at,
+      TRY_CAST(regexp_replace(estimated_job_costs, '[$,]', '', 'g') AS DOUBLE) AS job_cost,
+      ST_Point(CAST(longitude AS DOUBLE), CAST(latitude AS DOUBLE))  AS geom
+    FROM {raw}
+    WHERE latitude IS NOT NULL AND longitude IS NOT NULL
+  )
+  SELECT
+    * EXCLUDE (job_cost),
+    -- Keep the cost on one row per job (its first initial permit), so sums
+    -- don't multiply it by the number of permits and work types.
+    CASE WHEN filing_reason = 'Initial Permit' AND row_number() OVER (
+           PARTITION BY job_filing_number, filing_reason = 'Initial Permit'
+           ORDER BY issued_at, work_permit, work_type) = 1
+         THEN job_cost END                                           AS job_cost
+  FROM p
+
+features:
+  - id: permits_initial_12m
+    title: Initial work permits issued, last 12 months
+    agg: count(DISTINCT work_permit)
+    filter: filing_reason = 'Initial Permit' AND issued_at >= current_date - INTERVAL 12 MONTH
+    fill: 0
+    unit: permits
+    normalize: [area, capita]
+
+  - id: permits_job_cost_12m
+    title: Estimated cost of newly permitted jobs, last 12 months
+    agg: sum(job_cost)
+    filter: >-
+      filing_reason = 'Initial Permit' AND issued_at >= current_date - INTERVAL 12 MONTH
+      AND job_cost > 0 AND job_cost < 2e9
+    fill: 0
+    unit: USD
+    normalize: [area, capita]
+
+  - id: permits_median_job_cost_12m
+    title: Median estimated job cost of newly permitted jobs, last 12 months
+    agg: median(job_cost)
+    filter: filing_reason = 'Initial Permit' AND issued_at >= current_date - INTERVAL 12 MONTH AND job_cost > 0
+    unit: USD
+
+  # One row per work type authorized on a permit.
+  - id: permits_work_type
+    title: "Permitted work: {value}"
+    group_by: work_type
+    filter: filing_reason = 'Initial Permit' AND issued_at >= current_date - INTERVAL 12 MONTH
+    top_n: 10
+    agg: count(*)
+    fill: 0
+    unit: authorizations
+    normalize: [share]

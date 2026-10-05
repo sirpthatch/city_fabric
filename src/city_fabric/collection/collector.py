@@ -169,8 +169,9 @@ def raw_relation(spec: DatasetSpec) -> str:
     if spec.refresh.strategy == "full":
         return f"read_parquet('{files[-1]}')"
     glob = paths.RAW_DIR / spec.name / "*.parquet"
+    key = ", ".join(spec.key) if isinstance(spec.key, list) else spec.key
     return (
         f"(SELECT * EXCLUDE (_rn) FROM (SELECT *, row_number() OVER ("
-        f"PARTITION BY {spec.key} ORDER BY _ingested_at DESC) AS _rn "
+        f"PARTITION BY {key} ORDER BY _ingested_at DESC) AS _rn "
         f"FROM read_parquet('{glob}', union_by_name = true)) WHERE _rn = 1)"
     )

@@ -1,0 +1,135 @@
+name: facilities
+title: Facilities Database (FacDB)
+description: >-
+  DCP's database of ~34k public and publicly funded facilities and program sites
+  (schools, libraries, health, transportation, waste, public safety, ...), with
+  their overseeing agency. Covers schools by grade level and the composition of
+  city-overseen facilities. Note FacDB records facilities/programs, not
+  buildings: one building can host several.
+source:
+  type: socrata
+  domain: data.cityofnewyork.us
+  id: ji82-xba5
+  select: [uid, facname, facdomain, facgroup, facsubgrp, factype, capacity, captype,
+           overlevel, overagency, bin, latitude, longitude]
+  order: uid
+
+refresh:
+  strategy: full
+  min_interval_hours: 168
+
+key: uid
+
+staging: |
+  SELECT
+    uid                                                            AS key,
+    facname,
+    facdomain,
+    facgroup,
+    facsubgrp,
+    factype,
+    TRY_CAST(capacity AS DOUBLE)                                   AS capacity,
+    captype,
+    overlevel,
+    overagency,
+    -- Placeholder BINs (x000000) mean no building match.
+    CASE WHEN TRY_CAST(bin AS BIGINT) % 1000000 <> 0 THEN bin END  AS bin,
+    facsubgrp IN ('PUBLIC K-12 SCHOOLS', 'CHARTER K-12 SCHOOLS')   AS is_public_school,
+    -- Grade spans: K-8, secondary (6-12) and K-12 schools count toward each level they serve.
+    regexp_matches(factype, '^(ELEMENTARY|K-8|K-12)')              AS serves_elementary,
+    regexp_matches(factype, '^(JUNIOR HIGH|MIDDLE|K-8|SECONDARY|K-12)') AS serves_middle,
+    regexp_matches(factype, '^(HIGH SCHOOL|SECONDARY|K-12)')       AS serves_high,
+    ST_Point(CAST(longitude AS DOUBLE), CAST(latitude AS DOUBLE))  AS geom
+  FROM {raw}
+  WHERE latitude IS NOT NULL AND longitude IS NOT NULL
+
+features:
+  # --- Schools -------------------------------------------------------------
+  - id: schools_public
+    title: Public & charter K-12 schools
+    agg: count(*)
+    filter: is_public_school
+    fill: 0
+    unit: schools
+    normalize: [area, capita]
+
+  - id: schools_elementary
+    title: Public & charter schools serving elementary grades
+    agg: count(*)
+    filter: is_public_school AND serves_elementary
+    fill: 0
+    unit: schools
+    normalize: [capita]
+
+  - id: schools_middle
+    title: Public & charter schools serving middle grades
+    agg: count(*)
+    filter: is_public_school AND serves_middle
+    fill: 0
+    unit: schools
+    normalize: [capita]
+
+  - id: schools_high
+    title: Public & charter schools serving high school grades
+    agg: count(*)
+    filter: is_public_school AND serves_high
+    fill: 0
+    unit: schools
+    normalize: [capita]
+
+  - id: schools_nonpublic
+    title: Non-public K-12 schools
+    agg: count(*)
+    filter: facsubgrp = 'NON-PUBLIC K-12 SCHOOLS'
+    fill: 0
+    unit: schools
+    normalize: [capita]
+
+  - id: schools_pct_charter
+    title: Charter share of public & charter schools
+    agg: avg(CASE WHEN facsubgrp = 'CHARTER K-12 SCHOOLS' THEN 1.0 ELSE 0.0 END)
+    filter: is_public_school
+    unit: fraction
+
+  - id: school_seats_public
+    title: Public school seats (DOE capacity)
+    agg: sum(capacity)
+    filter: facsubgrp = 'PUBLIC K-12 SCHOOLS' AND captype = 'seats'
+    fill: 0
+    unit: seats
+    normalize: [capita]
+
+  # --- Municipal facilities ------------------------------------------------
+  - id: city_facilities
+    title: City-overseen facilities
+    agg: count(*)
+    filter: overlevel = 'City'
+    fill: 0
+    unit: facilities
+    normalize: [area, capita]
+
+  - id: city_facility_buildings
+    title: Buildings housing city-overseen facilities
+    agg: count(DISTINCT bin)
+    filter: overlevel = 'City'
+    fill: 0
+    unit: buildings
+    normalize: [area]
+
+  - id: city_facilities_domain
+    title: "City facilities: {value}"
+    group_by: facdomain
+    filter: overlevel = 'City'
+    top_n: 7
+    agg: count(*)
+    fill: 0
+    unit: facilities
+    normalize: [share]
+
+  - id: libraries
+    title: Public libraries
+    agg: count(*)
+    filter: facsubgrp = 'PUBLIC LIBRARIES'
+    fill: 0
+    unit: libraries
+    normalize: [capita]

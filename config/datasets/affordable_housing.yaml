@@ -1,0 +1,108 @@
+name: affordable_housing
+title: Affordable Housing Production by Building
+description: >-
+  HPD buildings in projects counted toward the city's affordable housing plans
+  (2014-present), with units by income band (AMI tier) and bedroom count.
+  Income bands: extremely low (0-30% AMI), very low (31-50%), low (51-80%),
+  moderate (81-120%), middle (121-165%), other (superintendent units etc.).
+source:
+  type: socrata
+  domain: data.cityofnewyork.us
+  id: hg8x-zxpr
+  select: [project_id, building_id, project_start_date, building_completion_date,
+           reporting_construction_type, extremely_low_income_units, very_low_income_units,
+           low_income_units, moderate_income_units, middle_income_units, other_income_units,
+           _3_br_units, _4_br_units, _5_br_units, _6_br_units, counted_rental_units,
+           counted_homeownership_units, all_counted_units, total_units,
+           latitude, longitude, latitude_internal, longitude_internal]
+  order: project_id
+
+refresh:
+  strategy: full
+  min_interval_hours: 168
+
+key: building_id
+
+staging: |
+  SELECT
+    project_id || '-' || coalesce(building_id, 'na')                AS key,
+    project_id,
+    reporting_construction_type                                    AS construction_type,
+    TRY_CAST(project_start_date AS TIMESTAMP)                      AS started_at,
+    TRY_CAST(building_completion_date AS TIMESTAMP)                AS completed_at,
+    coalesce(TRY_CAST(extremely_low_income_units AS DOUBLE), 0)    AS eli_units,
+    coalesce(TRY_CAST(very_low_income_units AS DOUBLE), 0)         AS vli_units,
+    coalesce(TRY_CAST(low_income_units AS DOUBLE), 0)              AS li_units,
+    coalesce(TRY_CAST(moderate_income_units AS DOUBLE), 0)         AS mod_units,
+    coalesce(TRY_CAST(middle_income_units AS DOUBLE), 0)           AS mid_units,
+    coalesce(TRY_CAST(other_income_units AS DOUBLE), 0)            AS other_units,
+    coalesce(TRY_CAST(_3_br_units AS DOUBLE), 0) + coalesce(TRY_CAST(_4_br_units AS DOUBLE), 0)
+      + coalesce(TRY_CAST(_5_br_units AS DOUBLE), 0) + coalesce(TRY_CAST(_6_br_units AS DOUBLE), 0)
+                                                                   AS units_3br_plus,
+    coalesce(TRY_CAST(counted_rental_units AS DOUBLE), 0)          AS rental_units,
+    coalesce(TRY_CAST(all_counted_units AS DOUBLE), 0)             AS units,
+    -- Confidential sites (e.g. shelters) have no public coordinates; fall back
+    -- to HPD's internal ones where present.
+    ST_Point(CAST(coalesce(longitude, longitude_internal) AS DOUBLE),
+             CAST(coalesce(latitude, latitude_internal) AS DOUBLE)) AS geom
+  FROM {raw}
+  WHERE coalesce(latitude, latitude_internal) IS NOT NULL
+
+features:
+  - id: afford_units
+    title: Affordable units
+    agg: sum(units)
+    fill: 0
+    unit: units
+    normalize: [area, capita]
+
+  - id: afford_units_new_construction
+    title: Affordable units, new construction
+    agg: sum(units)
+    filter: construction_type = 'New Construction'
+    fill: 0
+    unit: units
+    normalize: [capita]
+
+  - id: afford_units_preservation
+    title: Affordable units, preservation
+    agg: sum(units)
+    filter: construction_type = 'Preservation'
+    fill: 0
+    unit: units
+    normalize: [capita]
+
+  - id: afford_pct_extremely_low
+    title: "Affordable mix: extremely low income (≤30% AMI)"
+    agg: sum(eli_units) / nullif(sum(units), 0)
+    unit: fraction
+
+  - id: afford_pct_very_low
+    title: "Affordable mix: very low income (31-50% AMI)"
+    agg: sum(vli_units) / nullif(sum(units), 0)
+    unit: fraction
+
+  - id: afford_pct_low
+    title: "Affordable mix: low income (51-80% AMI)"
+    agg: sum(li_units) / nullif(sum(units), 0)
+    unit: fraction
+
+  - id: afford_pct_moderate
+    title: "Affordable mix: moderate income (81-120% AMI)"
+    agg: sum(mod_units) / nullif(sum(units), 0)
+    unit: fraction
+
+  - id: afford_pct_middle
+    title: "Affordable mix: middle income (121-165% AMI)"
+    agg: sum(mid_units) / nullif(sum(units), 0)
+    unit: fraction
+
+  - id: afford_pct_3br_plus
+    title: Share of affordable units with 3+ bedrooms
+    agg: sum(units_3br_plus) / nullif(sum(units), 0)
+    unit: fraction
+
+  - id: afford_pct_rental
+    title: Share of affordable units that are rentals
+    agg: sum(rental_units) / nullif(sum(units), 0)
+    unit: fraction

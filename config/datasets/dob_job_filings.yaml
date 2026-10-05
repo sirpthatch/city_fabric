@@ -1,0 +1,83 @@
+name: dob_job_filings
+title: DOB NOW New Building & Demolition Jobs
+description: >-
+  New building and full demolition jobs filed in DOB NOW: Build, rolled up from
+  filings (initial + subsequent) to one row per job. Only permitted jobs count;
+  features cover jobs first permitted in the trailing 5 years.
+source:
+  type: socrata
+  domain: data.cityofnewyork.us
+  id: w9ak-ipjd
+  select: [job_filing_number, filing_status, job_type, filing_date, first_permit_date,
+           existing_dwelling_units, proposed_dwelling_units, proposed_no_of_stories,
+           latitude, longitude]
+  where: >-
+    job_type in ('New Building', 'Full Demolition',
+                 'ALT-CO - New Building with Existing Elements to Remain')
+  order: job_filing_number
+
+refresh:
+  strategy: full
+  min_interval_hours: 24
+
+key: job_filing_number
+
+staging: |
+  WITH f AS (
+    SELECT
+      split_part(job_filing_number, '-', 1)                         AS job,
+      job_type,
+      filing_status,
+      TRY_CAST(filing_date AS TIMESTAMP)                            AS filed_at,
+      TRY_CAST(first_permit_date AS TIMESTAMP)                      AS permitted_at,
+      TRY_CAST(existing_dwelling_units AS DOUBLE)                   AS existing_units,
+      TRY_CAST(proposed_dwelling_units AS DOUBLE)                   AS proposed_units,
+      TRY_CAST(proposed_no_of_stories AS DOUBLE)                    AS stories,
+      TRY_CAST(latitude AS DOUBLE)                                  AS lat,
+      TRY_CAST(longitude AS DOUBLE)                                 AS lon
+    FROM {raw}
+    WHERE filing_status <> 'Filing Withdrawn'
+  )
+  SELECT
+    job                                                            AS key,
+    -- The latest filing carries the current scope of the job.
+    arg_max(job_type, filed_at)                                    AS job_type,
+    min(permitted_at)                                              AS permitted_at,
+    arg_max(existing_units, filed_at)                              AS existing_units,
+    arg_max(proposed_units, filed_at)                              AS proposed_units,
+    arg_max(stories, filed_at)                                     AS stories,
+    ST_Point(any_value(lon), any_value(lat))                       AS geom
+  FROM f
+  GROUP BY job
+  HAVING min(permitted_at) IS NOT NULL AND any_value(lat) IS NOT NULL
+
+features:
+  - id: new_buildings_5y
+    title: New buildings permitted, last 5 years
+    agg: count(*)
+    filter: job_type <> 'Full Demolition' AND permitted_at >= current_date - INTERVAL 5 YEAR
+    fill: 0
+    unit: buildings
+    normalize: [area, capita]
+
+  - id: demolitions_5y
+    title: Full demolitions permitted, last 5 years
+    agg: count(*)
+    filter: job_type = 'Full Demolition' AND permitted_at >= current_date - INTERVAL 5 YEAR
+    fill: 0
+    unit: buildings
+    normalize: [area]
+
+  - id: new_units_permitted_5y
+    title: Net new dwelling units permitted, last 5 years
+    agg: sum(coalesce(proposed_units, 0) - coalesce(existing_units, 0))
+    filter: job_type <> 'Full Demolition' AND permitted_at >= current_date - INTERVAL 5 YEAR
+    fill: 0
+    unit: units
+    normalize: [area, capita]
+
+  - id: new_buildings_median_stories_5y
+    title: Median stories of new buildings, last 5 years
+    agg: median(stories)
+    filter: job_type <> 'Full Demolition' AND permitted_at >= current_date - INTERVAL 5 YEAR AND stories > 0
+    unit: stories

@@ -77,3 +77,23 @@ def test_per_capita_skipped_without_population(workspace):
         build_features(con, [workspace["spec"]])
         feats = {r[0] for r in con.execute("SELECT feature FROM feature_catalog").fetchall()}
     assert "things_n_per_km2" in feats and "things_n_per_1k" not in feats
+
+
+def test_incremental_composite_key_dedup(workspace):
+    """Rows sharing part of a composite key are distinct; the latest ingest wins per full key."""
+    from dataclasses import replace
+
+    from city_fabric.collection import raw_relation
+    from city_fabric.config import Refresh
+
+    raw = paths.RAW_DIR / "permits"
+    raw.mkdir()
+    pd.DataFrame({"permit": ["P1", "P1", "P2"], "work": ["GC", "PL", "GC"], "status": ["old"] * 3,
+                  "_ingested_at": ["2026-01-01"] * 3}).to_parquet(raw / "20260101T000000Z.parquet")
+    pd.DataFrame({"permit": ["P1"], "work": ["PL"], "status": ["new"],
+                  "_ingested_at": ["2026-02-01"]}).to_parquet(raw / "20260201T000000Z.parquet")
+    spec = replace(workspace["spec"], name="permits", key=["permit", "work"],
+                   refresh=Refresh(strategy="incremental", watermark="x"))
+    with db.connect() as con:
+        rows = con.execute(f"SELECT permit, work, status FROM {raw_relation(spec)} ORDER BY 1, 2").fetchall()
+    assert rows == [("P1", "GC", "old"), ("P1", "PL", "new"), ("P2", "GC", "old")]
