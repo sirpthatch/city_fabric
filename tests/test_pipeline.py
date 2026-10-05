@@ -97,3 +97,22 @@ def test_incremental_composite_key_dedup(workspace):
     with db.connect() as con:
         rows = con.execute(f"SELECT permit, work, status FROM {raw_relation(spec)} ORDER BY 1, 2").fetchall()
     assert rows == [("P1", "GC", "old"), ("P1", "PL", "new"), ("P2", "GC", "old")]
+
+
+def test_pairwise_spearman_matches_scipy():
+    """The scipy-free Spearman used in production matches scipy on pairwise-complete rows."""
+    import numpy as np
+    from scipy.stats import spearmanr
+
+    from city_fabric.viz.server import pairwise_corr
+
+    rng = np.random.default_rng(0)
+    y = pd.Series(rng.normal(size=200))
+    X = pd.DataFrame({"a": y * 2 + rng.normal(size=200), "b": rng.normal(size=200).round(1)})
+    X.loc[::7, "a"] = np.nan  # missing values and ties exercise the pairwise ranking
+    y[::11] = np.nan
+    r, n = pairwise_corr(X, y)
+    for i, col in enumerate(X.columns):
+        valid = X[col].notna() & y.notna()
+        assert r[i] == pytest.approx(spearmanr(X.loc[valid, col], y[valid]).statistic)
+        assert n[i] == valid.sum()

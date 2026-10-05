@@ -94,6 +94,32 @@ To keep monitored datasets current, schedule `cf collect && cf build` (cron or l
 checks make a run cheap when nothing upstream has changed. Set `SOCRATA_APP_TOKEN` to get higher API
 rate limits.
 
+## Deploying to Railway
+
+The deployed site only serves the published marts (`data/marts/`, about 7 MB, committed to the repo). The pipeline
+keeps running locally. Raw data and the DuckDB warehouse stay gitignored.
+
+**First deploy**
+1. Push the repo to GitHub.
+2. In Railway, choose **New Project → Deploy from GitHub repo** and pick `city_fabric`. Railway reads
+   `railway.json`, builds the `Dockerfile` and checks `/healthz` before switching traffic over.
+3. Under the service's **Settings → Networking**, click **Generate Domain** to get a public URL.
+
+You don't need any environment variables. Railway sets `PORT`, and `SOCRATA_APP_TOKEN` only matters to the
+pipeline. A small instance is enough, since the app holds the marts in memory (well under 512 MB).
+
+**Refreshing the data**
+```bash
+cf collect && cf build        # locally; rewrites data/marts/
+git add data/marts && git commit -m "Refresh marts" && git push
+```
+Railway redeploys on push. `/healthz` reports the deployed `built_at` timestamp and the feature count.
+
+**Testing the image locally** (with Docker):
+```bash
+docker build -t city-fabric . && docker run --rm -p 8000:8000 -e PORT=8000 city-fabric
+```
+
 ## Adding a dataset
 
 Create `config/datasets/<name>.yaml`:

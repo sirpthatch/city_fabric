@@ -12,6 +12,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 
@@ -20,6 +21,8 @@ from city_fabric import paths
 STATIC = Path(__file__).parent / "static"
 
 app = FastAPI(title="City Fabric")
+# GeoJSON and feature payloads compress ~5-10x.
+app.add_middleware(GZipMiddleware, minimum_size=1024)
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
 
 
@@ -48,6 +51,32 @@ def _clean(values: pd.Series) -> list:
     return [None if pd.isna(v) else round(float(v), 6) for v in values]
 
 
+def pairwise_corr(X: pd.DataFrame, y: pd.Series, method: str = "spearman"):
+    """Correlation of each column of X with y over rows where both are present.
+
+    Spearman ranks within each complete pair (matching the frontend's scatter
+    stats) and needs no scipy, unlike pandas' method="spearman".
+    """
+    if method not in ("spearman", "pearson"):
+        raise HTTPException(400, f"Unsupported method {method!r}")
+    rs, ns = [], []
+    for col in X.columns:
+        valid = X[col].notna() & y.notna()
+        a, b = X.loc[valid, col], y[valid]
+        if method == "spearman":
+            a, b = a.rank(), b.rank()
+        ns.append(int(valid.sum()))
+        rs.append(a.corr(b) if len(a) >= 3 else np.nan)
+    return np.array(rs, dtype=float), np.array(ns)
+
+
+@app.get("/healthz")
+def healthz():
+    """Liveness + data check for the platform health probe."""
+    m = manifest()
+    return {"status": "ok", "built_at": m["built_at"], "features": len(m["features"])}
+
+
 @app.get("/")
 def index():
     return FileResponse(STATIC / "index.html")
@@ -60,7 +89,9 @@ def get_manifest():
 
 @app.get("/api/geo/{level}")
 def get_geo(level: str):
-    return Response(_mart(f"geo_{level}.geojson").read_bytes(), media_type="application/geo+json")
+    # Boundaries only change when marts are rebuilt (i.e. on redeploy).
+    return Response(_mart(f"geo_{level}.geojson").read_bytes(), media_type="application/geo+json",
+                    headers={"Cache-Control": "public, max-age=3600"})
 
 
 @app.get("/api/features/{level}")
@@ -88,10 +119,8 @@ def get_correlates(level: str, feature: str, method: str = "spearman", limit: in
     base = catalog.get(feature, {}).get("base_feature")
     cols = [c for c in catalog if c in df.columns and c != feature
             and not (exclude_same_base and catalog[c]["base_feature"] == base)]
-    numeric = df[cols].astype(float)
-    corr = numeric.corrwith(df[feature].astype(float), method=method)
-    n = numeric.notna().mul(df[feature].notna(), axis=0).sum()
-    out = pd.DataFrame({"feature": corr.index, "r": corr.values, "n": n[corr.index].values})
+    corr, n = pairwise_corr(df[cols].astype(float), df[feature].astype(float), method)
+    out = pd.DataFrame({"feature": cols, "r": corr, "n": n})
     out = out.dropna().assign(abs_r=lambda d: d["r"].abs()).sort_values("abs_r", ascending=False)
     return [
         {"feature": row.feature, "title": catalog[row.feature]["title"],

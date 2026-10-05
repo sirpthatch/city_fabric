@@ -3,6 +3,9 @@ __pycache__/
 *.egg-info/
 .ipynb_checkpoints/
 .pytest_cache/
-data/
+# Raw data and the warehouse are rebuilt by `cf run`; the published marts are
+# committed so the deployed site can serve them.
+data/*
+!data/marts/
 .env
 .DS_Store

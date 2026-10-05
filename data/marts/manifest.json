@@ -1,0 +1,3031 @@
+{
+  "built_at": "2026-10-05T15:57:20+00:00",
+  "levels": [
+    {
+      "level": "borough",
+      "title": "Borough"
+    },
+    {
+      "level": "community_district",
+      "title": "Community District"
+    },
+    {
+      "level": "nta",
+      "title": "Neighborhood Tabulation Area (2020)"
+    },
+    {
+      "level": "census_tract",
+      "title": "Census Tract (2020, FIPS GEOID)"
+    },
+    {
+      "level": "zcta",
+      "title": "Modified ZIP Code Tabulation Area"
+    }
+  ],
+  "datasets": [
+    "affordable_housing",
+    "facilities",
+    "wifi_hotspots",
+    "forestry_trees",
+    "grocery_stores",
+    "restaurant_inspections",
+    "acs_tracts",
+    "city_property",
+    "linknyc_kiosks",
+    "service_requests_311",
+    "dob_job_filings",
+    "landmarks",
+    "public_restrooms",
+    "dob_permits"
+  ],
+  "features": [
+    {
+      "feature": "acs_mean_commute_min",
+      "title": "Mean commute time",
+      "dataset": "acs_tracts",
+      "unit": "minutes",
+      "kind": "raw",
+      "base_feature": "acs_mean_commute_min",
+      "description": "Workers 16+ who did not work from home."
+    },
+    {
+      "feature": "acs_median_hh_income",
+      "title": "Median household income",
+      "dataset": "acs_tracts",
+      "unit": "USD",
+      "kind": "raw",
+      "base_feature": "acs_median_hh_income",
+      "description": "Interpolated from 16 ACS income brackets (top bracket $200k+)."
+    },
+    {
+      "feature": "acs_pct_commute_60min_plus",
+      "title": "Share of commutes 60+ minutes",
+      "dataset": "acs_tracts",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "acs_pct_commute_60min_plus",
+      "description": null
+    },
+    {
+      "feature": "acs_pct_commute_drive_alone",
+      "title": "Share commuting by driving alone",
+      "dataset": "acs_tracts",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "acs_pct_commute_drive_alone",
+      "description": null
+    },
+    {
+      "feature": "acs_pct_commute_transit",
+      "title": "Share commuting by public transit",
+      "dataset": "acs_tracts",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "acs_pct_commute_transit",
+      "description": null
+    },
+    {
+      "feature": "acs_pct_commute_walk_bike",
+      "title": "Share commuting by walking or bicycle",
+      "dataset": "acs_tracts",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "acs_pct_commute_walk_bike",
+      "description": null
+    },
+    {
+      "feature": "acs_pct_hh_income_200k_plus",
+      "title": "Share of households earning $200k+",
+      "dataset": "acs_tracts",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "acs_pct_hh_income_200k_plus",
+      "description": null
+    },
+    {
+      "feature": "acs_pct_hh_income_under_25k",
+      "title": "Share of households earning under $25k",
+      "dataset": "acs_tracts",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "acs_pct_hh_income_under_25k",
+      "description": null
+    },
+    {
+      "feature": "acs_pct_rent_burdened",
+      "title": "Share of renters paying 30%+ of income on rent",
+      "dataset": "acs_tracts",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "acs_pct_rent_burdened",
+      "description": null
+    },
+    {
+      "feature": "acs_pct_work_from_home",
+      "title": "Share working from home",
+      "dataset": "acs_tracts",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "acs_pct_work_from_home",
+      "description": null
+    },
+    {
+      "feature": "acs_population",
+      "title": "Population",
+      "dataset": "acs_tracts",
+      "unit": "residents",
+      "kind": "raw",
+      "base_feature": "acs_population",
+      "description": null
+    },
+    {
+      "feature": "acs_population_per_km2",
+      "title": "Population per km\u00b2",
+      "dataset": "acs_tracts",
+      "unit": "residents/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "acs_population",
+      "description": null
+    },
+    {
+      "feature": "afford_pct_3br_plus",
+      "title": "Share of affordable units with 3+ bedrooms",
+      "dataset": "affordable_housing",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "afford_pct_3br_plus",
+      "description": null
+    },
+    {
+      "feature": "afford_pct_extremely_low",
+      "title": "Affordable mix: extremely low income (\u226430% AMI)",
+      "dataset": "affordable_housing",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "afford_pct_extremely_low",
+      "description": null
+    },
+    {
+      "feature": "afford_pct_low",
+      "title": "Affordable mix: low income (51-80% AMI)",
+      "dataset": "affordable_housing",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "afford_pct_low",
+      "description": null
+    },
+    {
+      "feature": "afford_pct_middle",
+      "title": "Affordable mix: middle income (121-165% AMI)",
+      "dataset": "affordable_housing",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "afford_pct_middle",
+      "description": null
+    },
+    {
+      "feature": "afford_pct_moderate",
+      "title": "Affordable mix: moderate income (81-120% AMI)",
+      "dataset": "affordable_housing",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "afford_pct_moderate",
+      "description": null
+    },
+    {
+      "feature": "afford_pct_rental",
+      "title": "Share of affordable units that are rentals",
+      "dataset": "affordable_housing",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "afford_pct_rental",
+      "description": null
+    },
+    {
+      "feature": "afford_pct_very_low",
+      "title": "Affordable mix: very low income (31-50% AMI)",
+      "dataset": "affordable_housing",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "afford_pct_very_low",
+      "description": null
+    },
+    {
+      "feature": "afford_units",
+      "title": "Affordable units",
+      "dataset": "affordable_housing",
+      "unit": "units",
+      "kind": "raw",
+      "base_feature": "afford_units",
+      "description": null
+    },
+    {
+      "feature": "afford_units_new_construction",
+      "title": "Affordable units, new construction",
+      "dataset": "affordable_housing",
+      "unit": "units",
+      "kind": "raw",
+      "base_feature": "afford_units_new_construction",
+      "description": null
+    },
+    {
+      "feature": "afford_units_new_construction_per_1k",
+      "title": "Affordable units, new construction per 1k residents",
+      "dataset": "affordable_housing",
+      "unit": "units/1k residents",
+      "kind": "per_capita",
+      "base_feature": "afford_units_new_construction",
+      "description": null
+    },
+    {
+      "feature": "afford_units_per_1k",
+      "title": "Affordable units per 1k residents",
+      "dataset": "affordable_housing",
+      "unit": "units/1k residents",
+      "kind": "per_capita",
+      "base_feature": "afford_units",
+      "description": null
+    },
+    {
+      "feature": "afford_units_per_km2",
+      "title": "Affordable units per km\u00b2",
+      "dataset": "affordable_housing",
+      "unit": "units/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "afford_units",
+      "description": null
+    },
+    {
+      "feature": "afford_units_preservation",
+      "title": "Affordable units, preservation",
+      "dataset": "affordable_housing",
+      "unit": "units",
+      "kind": "raw",
+      "base_feature": "afford_units_preservation",
+      "description": null
+    },
+    {
+      "feature": "afford_units_preservation_per_1k",
+      "title": "Affordable units, preservation per 1k residents",
+      "dataset": "affordable_housing",
+      "unit": "units/1k residents",
+      "kind": "per_capita",
+      "base_feature": "afford_units_preservation",
+      "description": null
+    },
+    {
+      "feature": "city_lots",
+      "title": "City-owned or leased lots",
+      "dataset": "city_property",
+      "unit": "lots",
+      "kind": "raw",
+      "base_feature": "city_lots",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__cultural_recreational_use",
+      "title": "City property: CULTURAL & RECREATIONAL USE",
+      "dataset": "city_property",
+      "unit": "lots",
+      "kind": "raw",
+      "base_feature": "city_lots_category__cultural_recreational_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__cultural_recreational_use_share",
+      "title": "City property: CULTURAL & RECREATIONAL USE (share)",
+      "dataset": "city_property",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_lots_category__cultural_recreational_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__educational_use",
+      "title": "City property: EDUCATIONAL USE",
+      "dataset": "city_property",
+      "unit": "lots",
+      "kind": "raw",
+      "base_feature": "city_lots_category__educational_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__educational_use_share",
+      "title": "City property: EDUCATIONAL USE (share)",
+      "dataset": "city_property",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_lots_category__educational_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__health_social_services_use",
+      "title": "City property: HEALTH & SOCIAL SERVICES USE",
+      "dataset": "city_property",
+      "unit": "lots",
+      "kind": "raw",
+      "base_feature": "city_lots_category__health_social_services_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__health_social_services_use_share",
+      "title": "City property: HEALTH & SOCIAL SERVICES USE (share)",
+      "dataset": "city_property",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_lots_category__health_social_services_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__leased_out_to_private_tenant",
+      "title": "City property: LEASED OUT TO PRIVATE TENANT",
+      "dataset": "city_property",
+      "unit": "lots",
+      "kind": "raw",
+      "base_feature": "city_lots_category__leased_out_to_private_tenant",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__leased_out_to_private_tenant_share",
+      "title": "City property: LEASED OUT TO PRIVATE TENANT (share)",
+      "dataset": "city_property",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_lots_category__leased_out_to_private_tenant",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__maintenance_storage_infrastructure_use",
+      "title": "City property: MAINTENANCE, STORAGE, & INFRASTRUCTURE USE",
+      "dataset": "city_property",
+      "unit": "lots",
+      "kind": "raw",
+      "base_feature": "city_lots_category__maintenance_storage_infrastructure_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__maintenance_storage_infrastructure_use_share",
+      "title": "City property: MAINTENANCE, STORAGE, & INFRASTRUCTURE USE (share)",
+      "dataset": "city_property",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_lots_category__maintenance_storage_infrastructure_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__office_use",
+      "title": "City property: OFFICE USE",
+      "dataset": "city_property",
+      "unit": "lots",
+      "kind": "raw",
+      "base_feature": "city_lots_category__office_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__office_use_share",
+      "title": "City property: OFFICE USE (share)",
+      "dataset": "city_property",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_lots_category__office_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__property_with_no_use",
+      "title": "City property: PROPERTY WITH NO USE",
+      "dataset": "city_property",
+      "unit": "lots",
+      "kind": "raw",
+      "base_feature": "city_lots_category__property_with_no_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__property_with_no_use_share",
+      "title": "City property: PROPERTY WITH NO USE (share)",
+      "dataset": "city_property",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_lots_category__property_with_no_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__property_with_residential_use",
+      "title": "City property: PROPERTY WITH RESIDENTIAL USE",
+      "dataset": "city_property",
+      "unit": "lots",
+      "kind": "raw",
+      "base_feature": "city_lots_category__property_with_residential_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__property_with_residential_use_share",
+      "title": "City property: PROPERTY WITH RESIDENTIAL USE (share)",
+      "dataset": "city_property",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_lots_category__property_with_residential_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__public_safety_criminal_justice_use",
+      "title": "City property: PUBLIC SAFETY & CRIMINAL JUSTICE USE",
+      "dataset": "city_property",
+      "unit": "lots",
+      "kind": "raw",
+      "base_feature": "city_lots_category__public_safety_criminal_justice_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_category__public_safety_criminal_justice_use_share",
+      "title": "City property: PUBLIC SAFETY & CRIMINAL JUSTICE USE (share)",
+      "dataset": "city_property",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_lots_category__public_safety_criminal_justice_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_no_use",
+      "title": "City lots with no current use",
+      "dataset": "city_property",
+      "unit": "lots",
+      "kind": "raw",
+      "base_feature": "city_lots_no_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_no_use_per_km2",
+      "title": "City lots with no current use per km\u00b2",
+      "dataset": "city_property",
+      "unit": "lots/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "city_lots_no_use",
+      "description": null
+    },
+    {
+      "feature": "city_lots_owned",
+      "title": "City-owned lots",
+      "dataset": "city_property",
+      "unit": "lots",
+      "kind": "raw",
+      "base_feature": "city_lots_owned",
+      "description": null
+    },
+    {
+      "feature": "city_lots_owned_per_km2",
+      "title": "City-owned lots per km\u00b2",
+      "dataset": "city_property",
+      "unit": "lots/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "city_lots_owned",
+      "description": null
+    },
+    {
+      "feature": "city_lots_pct_leased",
+      "title": "Share of city property that is leased (not owned)",
+      "dataset": "city_property",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "city_lots_pct_leased",
+      "description": null
+    },
+    {
+      "feature": "city_lots_per_1k",
+      "title": "City-owned or leased lots per 1k residents",
+      "dataset": "city_property",
+      "unit": "lots/1k residents",
+      "kind": "per_capita",
+      "base_feature": "city_lots",
+      "description": null
+    },
+    {
+      "feature": "city_lots_per_km2",
+      "title": "City-owned or leased lots per km\u00b2",
+      "dataset": "city_property",
+      "unit": "lots/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "city_lots",
+      "description": null
+    },
+    {
+      "feature": "demolitions_5y",
+      "title": "Full demolitions permitted, last 5 years",
+      "dataset": "dob_job_filings",
+      "unit": "buildings",
+      "kind": "raw",
+      "base_feature": "demolitions_5y",
+      "description": null
+    },
+    {
+      "feature": "demolitions_5y_per_km2",
+      "title": "Full demolitions permitted, last 5 years per km\u00b2",
+      "dataset": "dob_job_filings",
+      "unit": "buildings/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "demolitions_5y",
+      "description": null
+    },
+    {
+      "feature": "new_buildings_5y",
+      "title": "New buildings permitted, last 5 years",
+      "dataset": "dob_job_filings",
+      "unit": "buildings",
+      "kind": "raw",
+      "base_feature": "new_buildings_5y",
+      "description": null
+    },
+    {
+      "feature": "new_buildings_5y_per_1k",
+      "title": "New buildings permitted, last 5 years per 1k residents",
+      "dataset": "dob_job_filings",
+      "unit": "buildings/1k residents",
+      "kind": "per_capita",
+      "base_feature": "new_buildings_5y",
+      "description": null
+    },
+    {
+      "feature": "new_buildings_5y_per_km2",
+      "title": "New buildings permitted, last 5 years per km\u00b2",
+      "dataset": "dob_job_filings",
+      "unit": "buildings/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "new_buildings_5y",
+      "description": null
+    },
+    {
+      "feature": "new_buildings_median_stories_5y",
+      "title": "Median stories of new buildings, last 5 years",
+      "dataset": "dob_job_filings",
+      "unit": "stories",
+      "kind": "raw",
+      "base_feature": "new_buildings_median_stories_5y",
+      "description": null
+    },
+    {
+      "feature": "new_units_permitted_5y",
+      "title": "Net new dwelling units permitted, last 5 years",
+      "dataset": "dob_job_filings",
+      "unit": "units",
+      "kind": "raw",
+      "base_feature": "new_units_permitted_5y",
+      "description": null
+    },
+    {
+      "feature": "new_units_permitted_5y_per_1k",
+      "title": "Net new dwelling units permitted, last 5 years per 1k residents",
+      "dataset": "dob_job_filings",
+      "unit": "units/1k residents",
+      "kind": "per_capita",
+      "base_feature": "new_units_permitted_5y",
+      "description": null
+    },
+    {
+      "feature": "new_units_permitted_5y_per_km2",
+      "title": "Net new dwelling units permitted, last 5 years per km\u00b2",
+      "dataset": "dob_job_filings",
+      "unit": "units/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "new_units_permitted_5y",
+      "description": null
+    },
+    {
+      "feature": "permits_initial_12m",
+      "title": "Initial work permits issued, last 12 months",
+      "dataset": "dob_permits",
+      "unit": "permits",
+      "kind": "raw",
+      "base_feature": "permits_initial_12m",
+      "description": null
+    },
+    {
+      "feature": "permits_initial_12m_per_1k",
+      "title": "Initial work permits issued, last 12 months per 1k residents",
+      "dataset": "dob_permits",
+      "unit": "permits/1k residents",
+      "kind": "per_capita",
+      "base_feature": "permits_initial_12m",
+      "description": null
+    },
+    {
+      "feature": "permits_initial_12m_per_km2",
+      "title": "Initial work permits issued, last 12 months per km\u00b2",
+      "dataset": "dob_permits",
+      "unit": "permits/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "permits_initial_12m",
+      "description": null
+    },
+    {
+      "feature": "permits_job_cost_12m",
+      "title": "Estimated cost of newly permitted jobs, last 12 months",
+      "dataset": "dob_permits",
+      "unit": "USD",
+      "kind": "raw",
+      "base_feature": "permits_job_cost_12m",
+      "description": null
+    },
+    {
+      "feature": "permits_job_cost_12m_per_1k",
+      "title": "Estimated cost of newly permitted jobs, last 12 months per 1k residents",
+      "dataset": "dob_permits",
+      "unit": "USD/1k residents",
+      "kind": "per_capita",
+      "base_feature": "permits_job_cost_12m",
+      "description": null
+    },
+    {
+      "feature": "permits_job_cost_12m_per_km2",
+      "title": "Estimated cost of newly permitted jobs, last 12 months per km\u00b2",
+      "dataset": "dob_permits",
+      "unit": "USD/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "permits_job_cost_12m",
+      "description": null
+    },
+    {
+      "feature": "permits_median_job_cost_12m",
+      "title": "Median estimated job cost of newly permitted jobs, last 12 months",
+      "dataset": "dob_permits",
+      "unit": "USD",
+      "kind": "raw",
+      "base_feature": "permits_median_job_cost_12m",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__construction_fence",
+      "title": "Permitted work: Construction Fence",
+      "dataset": "dob_permits",
+      "unit": "authorizations",
+      "kind": "raw",
+      "base_feature": "permits_work_type__construction_fence",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__construction_fence_share",
+      "title": "Permitted work: Construction Fence (share)",
+      "dataset": "dob_permits",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "permits_work_type__construction_fence",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__foundation",
+      "title": "Permitted work: Foundation",
+      "dataset": "dob_permits",
+      "unit": "authorizations",
+      "kind": "raw",
+      "base_feature": "permits_work_type__foundation",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__foundation_share",
+      "title": "Permitted work: Foundation (share)",
+      "dataset": "dob_permits",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "permits_work_type__foundation",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__general_construction",
+      "title": "Permitted work: General Construction",
+      "dataset": "dob_permits",
+      "unit": "authorizations",
+      "kind": "raw",
+      "base_feature": "permits_work_type__general_construction",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__general_construction_share",
+      "title": "Permitted work: General Construction (share)",
+      "dataset": "dob_permits",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "permits_work_type__general_construction",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__mechanical_systems",
+      "title": "Permitted work: Mechanical Systems",
+      "dataset": "dob_permits",
+      "unit": "authorizations",
+      "kind": "raw",
+      "base_feature": "permits_work_type__mechanical_systems",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__mechanical_systems_share",
+      "title": "Permitted work: Mechanical Systems (share)",
+      "dataset": "dob_permits",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "permits_work_type__mechanical_systems",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__plumbing",
+      "title": "Permitted work: Plumbing",
+      "dataset": "dob_permits",
+      "unit": "authorizations",
+      "kind": "raw",
+      "base_feature": "permits_work_type__plumbing",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__plumbing_share",
+      "title": "Permitted work: Plumbing (share)",
+      "dataset": "dob_permits",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "permits_work_type__plumbing",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__sidewalk_shed",
+      "title": "Permitted work: Sidewalk Shed",
+      "dataset": "dob_permits",
+      "unit": "authorizations",
+      "kind": "raw",
+      "base_feature": "permits_work_type__sidewalk_shed",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__sidewalk_shed_share",
+      "title": "Permitted work: Sidewalk Shed (share)",
+      "dataset": "dob_permits",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "permits_work_type__sidewalk_shed",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__solar",
+      "title": "Permitted work: Solar",
+      "dataset": "dob_permits",
+      "unit": "authorizations",
+      "kind": "raw",
+      "base_feature": "permits_work_type__solar",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__solar_share",
+      "title": "Permitted work: Solar (share)",
+      "dataset": "dob_permits",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "permits_work_type__solar",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__sprinklers",
+      "title": "Permitted work: Sprinklers",
+      "dataset": "dob_permits",
+      "unit": "authorizations",
+      "kind": "raw",
+      "base_feature": "permits_work_type__sprinklers",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__sprinklers_share",
+      "title": "Permitted work: Sprinklers (share)",
+      "dataset": "dob_permits",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "permits_work_type__sprinklers",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__structural",
+      "title": "Permitted work: Structural",
+      "dataset": "dob_permits",
+      "unit": "authorizations",
+      "kind": "raw",
+      "base_feature": "permits_work_type__structural",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__structural_share",
+      "title": "Permitted work: Structural (share)",
+      "dataset": "dob_permits",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "permits_work_type__structural",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__supported_scaffold",
+      "title": "Permitted work: Supported Scaffold",
+      "dataset": "dob_permits",
+      "unit": "authorizations",
+      "kind": "raw",
+      "base_feature": "permits_work_type__supported_scaffold",
+      "description": null
+    },
+    {
+      "feature": "permits_work_type__supported_scaffold_share",
+      "title": "Permitted work: Supported Scaffold (share)",
+      "dataset": "dob_permits",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "permits_work_type__supported_scaffold",
+      "description": null
+    },
+    {
+      "feature": "city_facilities",
+      "title": "City-overseen facilities",
+      "dataset": "facilities",
+      "unit": "facilities",
+      "kind": "raw",
+      "base_feature": "city_facilities",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_domain__administration_of_government",
+      "title": "City facilities: ADMINISTRATION OF GOVERNMENT",
+      "dataset": "facilities",
+      "unit": "facilities",
+      "kind": "raw",
+      "base_feature": "city_facilities_domain__administration_of_government",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_domain__administration_of_government_share",
+      "title": "City facilities: ADMINISTRATION OF GOVERNMENT (share)",
+      "dataset": "facilities",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_facilities_domain__administration_of_government",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_domain__core_infrastructure_and_transportation",
+      "title": "City facilities: CORE INFRASTRUCTURE AND TRANSPORTATION",
+      "dataset": "facilities",
+      "unit": "facilities",
+      "kind": "raw",
+      "base_feature": "city_facilities_domain__core_infrastructure_and_transportation",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_domain__core_infrastructure_and_transportation_share",
+      "title": "City facilities: CORE INFRASTRUCTURE AND TRANSPORTATION (share)",
+      "dataset": "facilities",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_facilities_domain__core_infrastructure_and_transportation",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_domain__education_child_welfare_and_youth",
+      "title": "City facilities: EDUCATION, CHILD WELFARE, AND YOUTH",
+      "dataset": "facilities",
+      "unit": "facilities",
+      "kind": "raw",
+      "base_feature": "city_facilities_domain__education_child_welfare_and_youth",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_domain__education_child_welfare_and_youth_share",
+      "title": "City facilities: EDUCATION, CHILD WELFARE, AND YOUTH (share)",
+      "dataset": "facilities",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_facilities_domain__education_child_welfare_and_youth",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_domain__health_and_human_services",
+      "title": "City facilities: HEALTH AND HUMAN SERVICES",
+      "dataset": "facilities",
+      "unit": "facilities",
+      "kind": "raw",
+      "base_feature": "city_facilities_domain__health_and_human_services",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_domain__health_and_human_services_share",
+      "title": "City facilities: HEALTH AND HUMAN SERVICES (share)",
+      "dataset": "facilities",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_facilities_domain__health_and_human_services",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_domain__libraries_and_cultural_programs",
+      "title": "City facilities: LIBRARIES AND CULTURAL PROGRAMS",
+      "dataset": "facilities",
+      "unit": "facilities",
+      "kind": "raw",
+      "base_feature": "city_facilities_domain__libraries_and_cultural_programs",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_domain__libraries_and_cultural_programs_share",
+      "title": "City facilities: LIBRARIES AND CULTURAL PROGRAMS (share)",
+      "dataset": "facilities",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_facilities_domain__libraries_and_cultural_programs",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_domain__parks_gardens_and_historical_sites",
+      "title": "City facilities: PARKS, GARDENS, AND HISTORICAL SITES",
+      "dataset": "facilities",
+      "unit": "facilities",
+      "kind": "raw",
+      "base_feature": "city_facilities_domain__parks_gardens_and_historical_sites",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_domain__parks_gardens_and_historical_sites_share",
+      "title": "City facilities: PARKS, GARDENS, AND HISTORICAL SITES (share)",
+      "dataset": "facilities",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_facilities_domain__parks_gardens_and_historical_sites",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_domain__public_safety_emergency_services_and_administration_of_justice",
+      "title": "City facilities: PUBLIC SAFETY, EMERGENCY SERVICES, AND ADMINISTRATION OF JUSTICE",
+      "dataset": "facilities",
+      "unit": "facilities",
+      "kind": "raw",
+      "base_feature": "city_facilities_domain__public_safety_emergency_services_and_administration_of_justice",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_domain__public_safety_emergency_services_and_administration_of_justice_share",
+      "title": "City facilities: PUBLIC SAFETY, EMERGENCY SERVICES, AND ADMINISTRATION OF JUSTICE (share)",
+      "dataset": "facilities",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "city_facilities_domain__public_safety_emergency_services_and_administration_of_justice",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_per_1k",
+      "title": "City-overseen facilities per 1k residents",
+      "dataset": "facilities",
+      "unit": "facilities/1k residents",
+      "kind": "per_capita",
+      "base_feature": "city_facilities",
+      "description": null
+    },
+    {
+      "feature": "city_facilities_per_km2",
+      "title": "City-overseen facilities per km\u00b2",
+      "dataset": "facilities",
+      "unit": "facilities/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "city_facilities",
+      "description": null
+    },
+    {
+      "feature": "city_facility_buildings",
+      "title": "Buildings housing city-overseen facilities",
+      "dataset": "facilities",
+      "unit": "buildings",
+      "kind": "raw",
+      "base_feature": "city_facility_buildings",
+      "description": null
+    },
+    {
+      "feature": "city_facility_buildings_per_km2",
+      "title": "Buildings housing city-overseen facilities per km\u00b2",
+      "dataset": "facilities",
+      "unit": "buildings/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "city_facility_buildings",
+      "description": null
+    },
+    {
+      "feature": "libraries",
+      "title": "Public libraries",
+      "dataset": "facilities",
+      "unit": "libraries",
+      "kind": "raw",
+      "base_feature": "libraries",
+      "description": null
+    },
+    {
+      "feature": "libraries_per_1k",
+      "title": "Public libraries per 1k residents",
+      "dataset": "facilities",
+      "unit": "libraries/1k residents",
+      "kind": "per_capita",
+      "base_feature": "libraries",
+      "description": null
+    },
+    {
+      "feature": "school_seats_public",
+      "title": "Public school seats (DOE capacity)",
+      "dataset": "facilities",
+      "unit": "seats",
+      "kind": "raw",
+      "base_feature": "school_seats_public",
+      "description": null
+    },
+    {
+      "feature": "school_seats_public_per_1k",
+      "title": "Public school seats (DOE capacity) per 1k residents",
+      "dataset": "facilities",
+      "unit": "seats/1k residents",
+      "kind": "per_capita",
+      "base_feature": "school_seats_public",
+      "description": null
+    },
+    {
+      "feature": "schools_elementary",
+      "title": "Public & charter schools serving elementary grades",
+      "dataset": "facilities",
+      "unit": "schools",
+      "kind": "raw",
+      "base_feature": "schools_elementary",
+      "description": null
+    },
+    {
+      "feature": "schools_elementary_per_1k",
+      "title": "Public & charter schools serving elementary grades per 1k residents",
+      "dataset": "facilities",
+      "unit": "schools/1k residents",
+      "kind": "per_capita",
+      "base_feature": "schools_elementary",
+      "description": null
+    },
+    {
+      "feature": "schools_high",
+      "title": "Public & charter schools serving high school grades",
+      "dataset": "facilities",
+      "unit": "schools",
+      "kind": "raw",
+      "base_feature": "schools_high",
+      "description": null
+    },
+    {
+      "feature": "schools_high_per_1k",
+      "title": "Public & charter schools serving high school grades per 1k residents",
+      "dataset": "facilities",
+      "unit": "schools/1k residents",
+      "kind": "per_capita",
+      "base_feature": "schools_high",
+      "description": null
+    },
+    {
+      "feature": "schools_middle",
+      "title": "Public & charter schools serving middle grades",
+      "dataset": "facilities",
+      "unit": "schools",
+      "kind": "raw",
+      "base_feature": "schools_middle",
+      "description": null
+    },
+    {
+      "feature": "schools_middle_per_1k",
+      "title": "Public & charter schools serving middle grades per 1k residents",
+      "dataset": "facilities",
+      "unit": "schools/1k residents",
+      "kind": "per_capita",
+      "base_feature": "schools_middle",
+      "description": null
+    },
+    {
+      "feature": "schools_nonpublic",
+      "title": "Non-public K-12 schools",
+      "dataset": "facilities",
+      "unit": "schools",
+      "kind": "raw",
+      "base_feature": "schools_nonpublic",
+      "description": null
+    },
+    {
+      "feature": "schools_nonpublic_per_1k",
+      "title": "Non-public K-12 schools per 1k residents",
+      "dataset": "facilities",
+      "unit": "schools/1k residents",
+      "kind": "per_capita",
+      "base_feature": "schools_nonpublic",
+      "description": null
+    },
+    {
+      "feature": "schools_pct_charter",
+      "title": "Charter share of public & charter schools",
+      "dataset": "facilities",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "schools_pct_charter",
+      "description": null
+    },
+    {
+      "feature": "schools_public",
+      "title": "Public & charter K-12 schools",
+      "dataset": "facilities",
+      "unit": "schools",
+      "kind": "raw",
+      "base_feature": "schools_public",
+      "description": null
+    },
+    {
+      "feature": "schools_public_per_1k",
+      "title": "Public & charter K-12 schools per 1k residents",
+      "dataset": "facilities",
+      "unit": "schools/1k residents",
+      "kind": "per_capita",
+      "base_feature": "schools_public",
+      "description": null
+    },
+    {
+      "feature": "schools_public_per_km2",
+      "title": "Public & charter K-12 schools per km\u00b2",
+      "dataset": "facilities",
+      "unit": "schools/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "schools_public",
+      "description": null
+    },
+    {
+      "feature": "trees_live",
+      "title": "Live trees",
+      "dataset": "forestry_trees",
+      "unit": "trees",
+      "kind": "raw",
+      "base_feature": "trees_live",
+      "description": null
+    },
+    {
+      "feature": "trees_live_per_1k",
+      "title": "Live trees per 1k residents",
+      "dataset": "forestry_trees",
+      "unit": "trees/1k residents",
+      "kind": "per_capita",
+      "base_feature": "trees_live",
+      "description": null
+    },
+    {
+      "feature": "trees_live_per_km2",
+      "title": "Live trees per km\u00b2",
+      "dataset": "forestry_trees",
+      "unit": "trees/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "trees_live",
+      "description": null
+    },
+    {
+      "feature": "trees_mean_dbh",
+      "title": "Mean trunk diameter (live)",
+      "dataset": "forestry_trees",
+      "unit": "inches",
+      "kind": "raw",
+      "base_feature": "trees_mean_dbh",
+      "description": null
+    },
+    {
+      "feature": "trees_pct_poor",
+      "title": "Share of live trees in poor/critical condition",
+      "dataset": "forestry_trees",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "trees_pct_poor",
+      "description": null
+    },
+    {
+      "feature": "trees_planted_5y",
+      "title": "Trees planted, last 5 years",
+      "dataset": "forestry_trees",
+      "unit": "trees",
+      "kind": "raw",
+      "base_feature": "trees_planted_5y",
+      "description": null
+    },
+    {
+      "feature": "trees_planted_5y_per_1k",
+      "title": "Trees planted, last 5 years per 1k residents",
+      "dataset": "forestry_trees",
+      "unit": "trees/1k residents",
+      "kind": "per_capita",
+      "base_feature": "trees_planted_5y",
+      "description": null
+    },
+    {
+      "feature": "trees_planted_5y_per_km2",
+      "title": "Trees planted, last 5 years per km\u00b2",
+      "dataset": "forestry_trees",
+      "unit": "trees/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "trees_planted_5y",
+      "description": null
+    },
+    {
+      "feature": "trees_species_richness",
+      "title": "Distinct species (live)",
+      "dataset": "forestry_trees",
+      "unit": "species",
+      "kind": "raw",
+      "base_feature": "trees_species_richness",
+      "description": null
+    },
+    {
+      "feature": "trees_stumps",
+      "title": "Stumps (unreplaced removals)",
+      "dataset": "forestry_trees",
+      "unit": "stumps",
+      "kind": "raw",
+      "base_feature": "trees_stumps",
+      "description": null
+    },
+    {
+      "feature": "trees_stumps_per_1k",
+      "title": "Stumps (unreplaced removals) per 1k residents",
+      "dataset": "forestry_trees",
+      "unit": "stumps/1k residents",
+      "kind": "per_capita",
+      "base_feature": "trees_stumps",
+      "description": null
+    },
+    {
+      "feature": "trees_stumps_per_km2",
+      "title": "Stumps (unreplaced removals) per km\u00b2",
+      "dataset": "forestry_trees",
+      "unit": "stumps/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "trees_stumps",
+      "description": null
+    },
+    {
+      "feature": "food_retail_sqft",
+      "title": "Food retail floor area",
+      "dataset": "grocery_stores",
+      "unit": "sq ft",
+      "kind": "raw",
+      "base_feature": "food_retail_sqft",
+      "description": null
+    },
+    {
+      "feature": "food_retail_sqft_per_1k",
+      "title": "Food retail floor area per 1k residents",
+      "dataset": "grocery_stores",
+      "unit": "sq ft/1k residents",
+      "kind": "per_capita",
+      "base_feature": "food_retail_sqft",
+      "description": null
+    },
+    {
+      "feature": "food_stores",
+      "title": "Retail food stores (all sizes)",
+      "dataset": "grocery_stores",
+      "unit": "stores",
+      "kind": "raw",
+      "base_feature": "food_stores",
+      "description": null
+    },
+    {
+      "feature": "food_stores_pct_small",
+      "title": "Share of food stores under 2,500 sq ft (bodega-scale)",
+      "dataset": "grocery_stores",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "food_stores_pct_small",
+      "description": null
+    },
+    {
+      "feature": "food_stores_per_1k",
+      "title": "Retail food stores (all sizes) per 1k residents",
+      "dataset": "grocery_stores",
+      "unit": "stores/1k residents",
+      "kind": "per_capita",
+      "base_feature": "food_stores",
+      "description": null
+    },
+    {
+      "feature": "food_stores_per_km2",
+      "title": "Retail food stores (all sizes) per km\u00b2",
+      "dataset": "grocery_stores",
+      "unit": "stores/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "food_stores",
+      "description": null
+    },
+    {
+      "feature": "grocery_stores",
+      "title": "Grocery stores (2,500+ sq ft)",
+      "dataset": "grocery_stores",
+      "unit": "stores",
+      "kind": "raw",
+      "base_feature": "grocery_stores",
+      "description": null
+    },
+    {
+      "feature": "grocery_stores_per_1k",
+      "title": "Grocery stores (2,500+ sq ft) per 1k residents",
+      "dataset": "grocery_stores",
+      "unit": "stores/1k residents",
+      "kind": "per_capita",
+      "base_feature": "grocery_stores",
+      "description": null
+    },
+    {
+      "feature": "grocery_stores_per_km2",
+      "title": "Grocery stores (2,500+ sq ft) per km\u00b2",
+      "dataset": "grocery_stores",
+      "unit": "stores/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "grocery_stores",
+      "description": null
+    },
+    {
+      "feature": "supermarkets",
+      "title": "Supermarkets (10,000+ sq ft)",
+      "dataset": "grocery_stores",
+      "unit": "stores",
+      "kind": "raw",
+      "base_feature": "supermarkets",
+      "description": null
+    },
+    {
+      "feature": "supermarkets_per_1k",
+      "title": "Supermarkets (10,000+ sq ft) per 1k residents",
+      "dataset": "grocery_stores",
+      "unit": "stores/1k residents",
+      "kind": "per_capita",
+      "base_feature": "supermarkets",
+      "description": null
+    },
+    {
+      "feature": "supermarkets_per_km2",
+      "title": "Supermarkets (10,000+ sq ft) per km\u00b2",
+      "dataset": "grocery_stores",
+      "unit": "stores/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "supermarkets",
+      "description": null
+    },
+    {
+      "feature": "lpc_buildings",
+      "title": "Landmark-protected buildings (individual or historic district)",
+      "dataset": "landmarks",
+      "unit": "buildings",
+      "kind": "raw",
+      "base_feature": "lpc_buildings",
+      "description": null
+    },
+    {
+      "feature": "lpc_buildings_per_1k",
+      "title": "Landmark-protected buildings (individual or historic district) per 1k residents",
+      "dataset": "landmarks",
+      "unit": "buildings/1k residents",
+      "kind": "per_capita",
+      "base_feature": "lpc_buildings",
+      "description": null
+    },
+    {
+      "feature": "lpc_buildings_per_km2",
+      "title": "Landmark-protected buildings (individual or historic district) per km\u00b2",
+      "dataset": "landmarks",
+      "unit": "buildings/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "lpc_buildings",
+      "description": null
+    },
+    {
+      "feature": "lpc_historic_district_buildings",
+      "title": "Buildings in historic districts",
+      "dataset": "landmarks",
+      "unit": "buildings",
+      "kind": "raw",
+      "base_feature": "lpc_historic_district_buildings",
+      "description": null
+    },
+    {
+      "feature": "lpc_historic_district_buildings_per_km2",
+      "title": "Buildings in historic districts per km\u00b2",
+      "dataset": "landmarks",
+      "unit": "buildings/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "lpc_historic_district_buildings",
+      "description": null
+    },
+    {
+      "feature": "lpc_historic_districts",
+      "title": "Distinct historic districts",
+      "dataset": "landmarks",
+      "unit": "districts",
+      "kind": "raw",
+      "base_feature": "lpc_historic_districts",
+      "description": null
+    },
+    {
+      "feature": "lpc_individual_landmarks",
+      "title": "Individual landmarks",
+      "dataset": "landmarks",
+      "unit": "buildings",
+      "kind": "raw",
+      "base_feature": "lpc_individual_landmarks",
+      "description": null
+    },
+    {
+      "feature": "lpc_individual_landmarks_per_km2",
+      "title": "Individual landmarks per km\u00b2",
+      "dataset": "landmarks",
+      "unit": "buildings/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "lpc_individual_landmarks",
+      "description": null
+    },
+    {
+      "feature": "lpc_median_built_year",
+      "title": "Median construction year of protected buildings",
+      "dataset": "landmarks",
+      "unit": "year",
+      "kind": "raw",
+      "base_feature": "lpc_median_built_year",
+      "description": null
+    },
+    {
+      "feature": "linknyc_5g",
+      "title": "Live Link5G towers",
+      "dataset": "linknyc_kiosks",
+      "unit": "towers",
+      "kind": "raw",
+      "base_feature": "linknyc_5g",
+      "description": null
+    },
+    {
+      "feature": "linknyc_kiosks",
+      "title": "Live LinkNYC kiosks",
+      "dataset": "linknyc_kiosks",
+      "unit": "kiosks",
+      "kind": "raw",
+      "base_feature": "linknyc_kiosks",
+      "description": null
+    },
+    {
+      "feature": "linknyc_kiosks_per_1k",
+      "title": "Live LinkNYC kiosks per 1k residents",
+      "dataset": "linknyc_kiosks",
+      "unit": "kiosks/1k residents",
+      "kind": "per_capita",
+      "base_feature": "linknyc_kiosks",
+      "description": null
+    },
+    {
+      "feature": "linknyc_kiosks_per_km2",
+      "title": "Live LinkNYC kiosks per km\u00b2",
+      "dataset": "linknyc_kiosks",
+      "unit": "kiosks/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "linknyc_kiosks",
+      "description": null
+    },
+    {
+      "feature": "restrooms_library",
+      "title": "Library restrooms",
+      "dataset": "public_restrooms",
+      "unit": "restrooms",
+      "kind": "raw",
+      "base_feature": "restrooms_library",
+      "description": null
+    },
+    {
+      "feature": "restrooms_operational",
+      "title": "Operational public restrooms",
+      "dataset": "public_restrooms",
+      "unit": "restrooms",
+      "kind": "raw",
+      "base_feature": "restrooms_operational",
+      "description": null
+    },
+    {
+      "feature": "restrooms_operational_per_1k",
+      "title": "Operational public restrooms per 1k residents",
+      "dataset": "public_restrooms",
+      "unit": "restrooms/1k residents",
+      "kind": "per_capita",
+      "base_feature": "restrooms_operational",
+      "description": null
+    },
+    {
+      "feature": "restrooms_operational_per_km2",
+      "title": "Operational public restrooms per km\u00b2",
+      "dataset": "public_restrooms",
+      "unit": "restrooms/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "restrooms_operational",
+      "description": null
+    },
+    {
+      "feature": "restrooms_pct_changing_station",
+      "title": "Share of restrooms with a changing station",
+      "dataset": "public_restrooms",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "restrooms_pct_changing_station",
+      "description": null
+    },
+    {
+      "feature": "restaurants",
+      "title": "Restaurants",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants",
+      "description": null
+    },
+    {
+      "feature": "restaurants_critical_per_restaurant",
+      "title": "Critical violations per restaurant, last 3 years",
+      "dataset": "restaurant_inspections",
+      "unit": "violations",
+      "kind": "raw",
+      "base_feature": "restaurants_critical_per_restaurant",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__american",
+      "title": "Cuisine: American",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine__american",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__american_share",
+      "title": "Cuisine: American (share)",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "restaurants_cuisine__american",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__bakery_products_desserts",
+      "title": "Cuisine: Bakery Products/Desserts",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine__bakery_products_desserts",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__bakery_products_desserts_share",
+      "title": "Cuisine: Bakery Products/Desserts (share)",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "restaurants_cuisine__bakery_products_desserts",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__caribbean",
+      "title": "Cuisine: Caribbean",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine__caribbean",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__caribbean_share",
+      "title": "Cuisine: Caribbean (share)",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "restaurants_cuisine__caribbean",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__chicken",
+      "title": "Cuisine: Chicken",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine__chicken",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__chicken_share",
+      "title": "Cuisine: Chicken (share)",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "restaurants_cuisine__chicken",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__chinese",
+      "title": "Cuisine: Chinese",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine__chinese",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__chinese_share",
+      "title": "Cuisine: Chinese (share)",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "restaurants_cuisine__chinese",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__coffee_tea",
+      "title": "Cuisine: Coffee/Tea",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine__coffee_tea",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__coffee_tea_share",
+      "title": "Cuisine: Coffee/Tea (share)",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "restaurants_cuisine__coffee_tea",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__donuts",
+      "title": "Cuisine: Donuts",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine__donuts",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__donuts_share",
+      "title": "Cuisine: Donuts (share)",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "restaurants_cuisine__donuts",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__hamburgers",
+      "title": "Cuisine: Hamburgers",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine__hamburgers",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__hamburgers_share",
+      "title": "Cuisine: Hamburgers (share)",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "restaurants_cuisine__hamburgers",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__italian",
+      "title": "Cuisine: Italian",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine__italian",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__italian_share",
+      "title": "Cuisine: Italian (share)",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "restaurants_cuisine__italian",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__japanese",
+      "title": "Cuisine: Japanese",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine__japanese",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__japanese_share",
+      "title": "Cuisine: Japanese (share)",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "restaurants_cuisine__japanese",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__juice_smoothies_fruit_salads",
+      "title": "Cuisine: Juice, Smoothies, Fruit Salads",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine__juice_smoothies_fruit_salads",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__juice_smoothies_fruit_salads_share",
+      "title": "Cuisine: Juice, Smoothies, Fruit Salads (share)",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "restaurants_cuisine__juice_smoothies_fruit_salads",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__latin_american",
+      "title": "Cuisine: Latin American",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine__latin_american",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__latin_american_share",
+      "title": "Cuisine: Latin American (share)",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "restaurants_cuisine__latin_american",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__mexican",
+      "title": "Cuisine: Mexican",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine__mexican",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__mexican_share",
+      "title": "Cuisine: Mexican (share)",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "restaurants_cuisine__mexican",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__other",
+      "title": "Cuisine: Other",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine__other",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__other_share",
+      "title": "Cuisine: Other (share)",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "restaurants_cuisine__other",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__pizza",
+      "title": "Cuisine: Pizza",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine__pizza",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine__pizza_share",
+      "title": "Cuisine: Pizza (share)",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "restaurants_cuisine__pizza",
+      "description": null
+    },
+    {
+      "feature": "restaurants_cuisine_richness",
+      "title": "Distinct cuisines",
+      "dataset": "restaurant_inspections",
+      "unit": "cuisines",
+      "kind": "raw",
+      "base_feature": "restaurants_cuisine_richness",
+      "description": null
+    },
+    {
+      "feature": "restaurants_mean_score",
+      "title": "Mean latest inspection score (lower is cleaner)",
+      "dataset": "restaurant_inspections",
+      "unit": "points",
+      "kind": "raw",
+      "base_feature": "restaurants_mean_score",
+      "description": null
+    },
+    {
+      "feature": "restaurants_pct_grade_a",
+      "title": "Share of restaurants graded A",
+      "dataset": "restaurant_inspections",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "restaurants_pct_grade_a",
+      "description": null
+    },
+    {
+      "feature": "restaurants_per_1k",
+      "title": "Restaurants per 1k residents",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants/1k residents",
+      "kind": "per_capita",
+      "base_feature": "restaurants",
+      "description": null
+    },
+    {
+      "feature": "restaurants_per_km2",
+      "title": "Restaurants per km\u00b2",
+      "dataset": "restaurant_inspections",
+      "unit": "restaurants/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "restaurants",
+      "description": null
+    },
+    {
+      "feature": "sr311_median_days_to_close",
+      "title": "Median days to close",
+      "dataset": "service_requests_311",
+      "unit": "days",
+      "kind": "raw",
+      "base_feature": "sr311_median_days_to_close",
+      "description": null
+    },
+    {
+      "feature": "sr311_pct_open",
+      "title": "Share of requests still open",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "sr311_pct_open",
+      "description": null
+    },
+    {
+      "feature": "sr311_total",
+      "title": "311 requests (all types)",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_total",
+      "description": null
+    },
+    {
+      "feature": "sr311_total_per_1k",
+      "title": "311 requests (all types) per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_total",
+      "description": null
+    },
+    {
+      "feature": "sr311_total_per_km2",
+      "title": "311 requests (all types) per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_total",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__abandoned_vehicle",
+      "title": "311: Abandoned Vehicle",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__abandoned_vehicle",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__abandoned_vehicle_per_1k",
+      "title": "311: Abandoned Vehicle per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__abandoned_vehicle",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__abandoned_vehicle_per_km2",
+      "title": "311: Abandoned Vehicle per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__abandoned_vehicle",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__abandoned_vehicle_share",
+      "title": "311: Abandoned Vehicle (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__abandoned_vehicle",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__blocked_driveway",
+      "title": "311: Blocked Driveway",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__blocked_driveway",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__blocked_driveway_per_1k",
+      "title": "311: Blocked Driveway per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__blocked_driveway",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__blocked_driveway_per_km2",
+      "title": "311: Blocked Driveway per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__blocked_driveway",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__blocked_driveway_share",
+      "title": "311: Blocked Driveway (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__blocked_driveway",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__damaged_tree",
+      "title": "311: Damaged Tree",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__damaged_tree",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__damaged_tree_per_1k",
+      "title": "311: Damaged Tree per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__damaged_tree",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__damaged_tree_per_km2",
+      "title": "311: Damaged Tree per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__damaged_tree",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__damaged_tree_share",
+      "title": "311: Damaged Tree (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__damaged_tree",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__dirty_condition",
+      "title": "311: Dirty Condition",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__dirty_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__dirty_condition_per_1k",
+      "title": "311: Dirty Condition per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__dirty_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__dirty_condition_per_km2",
+      "title": "311: Dirty Condition per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__dirty_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__dirty_condition_share",
+      "title": "311: Dirty Condition (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__dirty_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__door_window",
+      "title": "311: DOOR/WINDOW",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__door_window",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__door_window_per_1k",
+      "title": "311: DOOR/WINDOW per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__door_window",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__door_window_per_km2",
+      "title": "311: DOOR/WINDOW per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__door_window",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__door_window_share",
+      "title": "311: DOOR/WINDOW (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__door_window",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__encampment",
+      "title": "311: Encampment",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__encampment",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__encampment_per_1k",
+      "title": "311: Encampment per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__encampment",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__encampment_per_km2",
+      "title": "311: Encampment per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__encampment",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__encampment_share",
+      "title": "311: Encampment (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__encampment",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__general",
+      "title": "311: GENERAL",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__general",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__general_construction_plumbing",
+      "title": "311: General Construction/Plumbing",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__general_construction_plumbing",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__general_construction_plumbing_per_1k",
+      "title": "311: General Construction/Plumbing per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__general_construction_plumbing",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__general_construction_plumbing_per_km2",
+      "title": "311: General Construction/Plumbing per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__general_construction_plumbing",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__general_construction_plumbing_share",
+      "title": "311: General Construction/Plumbing (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__general_construction_plumbing",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__general_per_1k",
+      "title": "311: GENERAL per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__general",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__general_per_km2",
+      "title": "311: GENERAL per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__general",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__general_share",
+      "title": "311: GENERAL (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__general",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__heat_hot_water",
+      "title": "311: HEAT/HOT WATER",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__heat_hot_water",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__heat_hot_water_per_1k",
+      "title": "311: HEAT/HOT WATER per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__heat_hot_water",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__heat_hot_water_per_km2",
+      "title": "311: HEAT/HOT WATER per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__heat_hot_water",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__heat_hot_water_share",
+      "title": "311: HEAT/HOT WATER (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__heat_hot_water",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__homeless_person_assistance",
+      "title": "311: Homeless Person Assistance",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__homeless_person_assistance",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__homeless_person_assistance_per_1k",
+      "title": "311: Homeless Person Assistance per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__homeless_person_assistance",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__homeless_person_assistance_per_km2",
+      "title": "311: Homeless Person Assistance per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__homeless_person_assistance",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__homeless_person_assistance_share",
+      "title": "311: Homeless Person Assistance (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__homeless_person_assistance",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__illegal_dumping",
+      "title": "311: Illegal Dumping",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__illegal_dumping",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__illegal_dumping_per_1k",
+      "title": "311: Illegal Dumping per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__illegal_dumping",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__illegal_dumping_per_km2",
+      "title": "311: Illegal Dumping per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__illegal_dumping",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__illegal_dumping_share",
+      "title": "311: Illegal Dumping (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__illegal_dumping",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__illegal_parking",
+      "title": "311: Illegal Parking",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__illegal_parking",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__illegal_parking_per_1k",
+      "title": "311: Illegal Parking per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__illegal_parking",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__illegal_parking_per_km2",
+      "title": "311: Illegal Parking per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__illegal_parking",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__illegal_parking_share",
+      "title": "311: Illegal Parking (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__illegal_parking",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__maintenance_or_facility",
+      "title": "311: Maintenance or Facility",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__maintenance_or_facility",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__maintenance_or_facility_per_1k",
+      "title": "311: Maintenance or Facility per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__maintenance_or_facility",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__maintenance_or_facility_per_km2",
+      "title": "311: Maintenance or Facility per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__maintenance_or_facility",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__maintenance_or_facility_share",
+      "title": "311: Maintenance or Facility (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__maintenance_or_facility",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__missed_collection",
+      "title": "311: Missed Collection",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__missed_collection",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__missed_collection_per_1k",
+      "title": "311: Missed Collection per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__missed_collection",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__missed_collection_per_km2",
+      "title": "311: Missed Collection per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__missed_collection",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__missed_collection_share",
+      "title": "311: Missed Collection (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__missed_collection",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise",
+      "title": "311: Noise",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__noise",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_commercial",
+      "title": "311: Noise - Commercial",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__noise_commercial",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_commercial_per_1k",
+      "title": "311: Noise - Commercial per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__noise_commercial",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_commercial_per_km2",
+      "title": "311: Noise - Commercial per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__noise_commercial",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_commercial_share",
+      "title": "311: Noise - Commercial (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__noise_commercial",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_per_1k",
+      "title": "311: Noise per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__noise",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_per_km2",
+      "title": "311: Noise per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__noise",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_residential",
+      "title": "311: Noise - Residential",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__noise_residential",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_residential_per_1k",
+      "title": "311: Noise - Residential per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__noise_residential",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_residential_per_km2",
+      "title": "311: Noise - Residential per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__noise_residential",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_residential_share",
+      "title": "311: Noise - Residential (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__noise_residential",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_share",
+      "title": "311: Noise (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__noise",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_street_sidewalk",
+      "title": "311: Noise - Street/Sidewalk",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__noise_street_sidewalk",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_street_sidewalk_per_1k",
+      "title": "311: Noise - Street/Sidewalk per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__noise_street_sidewalk",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_street_sidewalk_per_km2",
+      "title": "311: Noise - Street/Sidewalk per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__noise_street_sidewalk",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_street_sidewalk_share",
+      "title": "311: Noise - Street/Sidewalk (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__noise_street_sidewalk",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_vehicle",
+      "title": "311: Noise - Vehicle",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__noise_vehicle",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_vehicle_per_1k",
+      "title": "311: Noise - Vehicle per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__noise_vehicle",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_vehicle_per_km2",
+      "title": "311: Noise - Vehicle per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__noise_vehicle",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__noise_vehicle_share",
+      "title": "311: Noise - Vehicle (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__noise_vehicle",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__overgrown_tree_branches",
+      "title": "311: Overgrown Tree/Branches",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__overgrown_tree_branches",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__overgrown_tree_branches_per_1k",
+      "title": "311: Overgrown Tree/Branches per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__overgrown_tree_branches",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__overgrown_tree_branches_per_km2",
+      "title": "311: Overgrown Tree/Branches per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__overgrown_tree_branches",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__overgrown_tree_branches_share",
+      "title": "311: Overgrown Tree/Branches (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__overgrown_tree_branches",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__paint_plaster",
+      "title": "311: PAINT/PLASTER",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__paint_plaster",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__paint_plaster_per_1k",
+      "title": "311: PAINT/PLASTER per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__paint_plaster",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__paint_plaster_per_km2",
+      "title": "311: PAINT/PLASTER per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__paint_plaster",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__paint_plaster_share",
+      "title": "311: PAINT/PLASTER (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__paint_plaster",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__plumbing",
+      "title": "311: PLUMBING",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__plumbing",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__plumbing_per_1k",
+      "title": "311: PLUMBING per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__plumbing",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__plumbing_per_km2",
+      "title": "311: PLUMBING per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__plumbing",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__plumbing_share",
+      "title": "311: PLUMBING (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__plumbing",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__sewer_maintenance",
+      "title": "311: Sewer Maintenance",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__sewer_maintenance",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__sewer_maintenance_per_1k",
+      "title": "311: Sewer Maintenance per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__sewer_maintenance",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__sewer_maintenance_per_km2",
+      "title": "311: Sewer Maintenance per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__sewer_maintenance",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__sewer_maintenance_share",
+      "title": "311: Sewer Maintenance (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__sewer_maintenance",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__street_condition",
+      "title": "311: Street Condition",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__street_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__street_condition_per_1k",
+      "title": "311: Street Condition per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__street_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__street_condition_per_km2",
+      "title": "311: Street Condition per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__street_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__street_condition_share",
+      "title": "311: Street Condition (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__street_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__street_light_condition",
+      "title": "311: Street Light Condition",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__street_light_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__street_light_condition_per_1k",
+      "title": "311: Street Light Condition per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__street_light_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__street_light_condition_per_km2",
+      "title": "311: Street Light Condition per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__street_light_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__street_light_condition_share",
+      "title": "311: Street Light Condition (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__street_light_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__traffic_signal_condition",
+      "title": "311: Traffic Signal Condition",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__traffic_signal_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__traffic_signal_condition_per_1k",
+      "title": "311: Traffic Signal Condition per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__traffic_signal_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__traffic_signal_condition_per_km2",
+      "title": "311: Traffic Signal Condition per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__traffic_signal_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__traffic_signal_condition_share",
+      "title": "311: Traffic Signal Condition (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__traffic_signal_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__unsanitary_condition",
+      "title": "311: UNSANITARY CONDITION",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__unsanitary_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__unsanitary_condition_per_1k",
+      "title": "311: UNSANITARY CONDITION per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__unsanitary_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__unsanitary_condition_per_km2",
+      "title": "311: UNSANITARY CONDITION per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__unsanitary_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__unsanitary_condition_share",
+      "title": "311: UNSANITARY CONDITION (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__unsanitary_condition",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__water_leak",
+      "title": "311: WATER LEAK",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__water_leak",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__water_leak_per_1k",
+      "title": "311: WATER LEAK per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__water_leak",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__water_leak_per_km2",
+      "title": "311: WATER LEAK per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__water_leak",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__water_leak_share",
+      "title": "311: WATER LEAK (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__water_leak",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__water_maintenance",
+      "title": "311: Water Maintenance",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__water_maintenance",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__water_maintenance_per_1k",
+      "title": "311: Water Maintenance per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__water_maintenance",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__water_maintenance_per_km2",
+      "title": "311: Water Maintenance per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__water_maintenance",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__water_maintenance_share",
+      "title": "311: Water Maintenance (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__water_maintenance",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__water_system",
+      "title": "311: Water System",
+      "dataset": "service_requests_311",
+      "unit": "requests",
+      "kind": "raw",
+      "base_feature": "sr311_type__water_system",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__water_system_per_1k",
+      "title": "311: Water System per 1k residents",
+      "dataset": "service_requests_311",
+      "unit": "requests/1k residents",
+      "kind": "per_capita",
+      "base_feature": "sr311_type__water_system",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__water_system_per_km2",
+      "title": "311: Water System per km\u00b2",
+      "dataset": "service_requests_311",
+      "unit": "requests/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "sr311_type__water_system",
+      "description": null
+    },
+    {
+      "feature": "sr311_type__water_system_share",
+      "title": "311: Water System (share)",
+      "dataset": "service_requests_311",
+      "unit": "fraction",
+      "kind": "share",
+      "base_feature": "sr311_type__water_system",
+      "description": null
+    },
+    {
+      "feature": "wifi_free_hotspots",
+      "title": "Free Wi-Fi hotspots (non-LinkNYC)",
+      "dataset": "wifi_hotspots",
+      "unit": "hotspots",
+      "kind": "raw",
+      "base_feature": "wifi_free_hotspots",
+      "description": null
+    },
+    {
+      "feature": "wifi_free_hotspots_per_1k",
+      "title": "Free Wi-Fi hotspots (non-LinkNYC) per 1k residents",
+      "dataset": "wifi_hotspots",
+      "unit": "hotspots/1k residents",
+      "kind": "per_capita",
+      "base_feature": "wifi_free_hotspots",
+      "description": null
+    },
+    {
+      "feature": "wifi_free_hotspots_per_km2",
+      "title": "Free Wi-Fi hotspots (non-LinkNYC) per km\u00b2",
+      "dataset": "wifi_hotspots",
+      "unit": "hotspots/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "wifi_free_hotspots",
+      "description": null
+    },
+    {
+      "feature": "wifi_hotspots_all",
+      "title": "Wi-Fi hotspots incl. limited-free (non-LinkNYC)",
+      "dataset": "wifi_hotspots",
+      "unit": "hotspots",
+      "kind": "raw",
+      "base_feature": "wifi_hotspots_all",
+      "description": null
+    },
+    {
+      "feature": "wifi_hotspots_all_per_km2",
+      "title": "Wi-Fi hotspots incl. limited-free (non-LinkNYC) per km\u00b2",
+      "dataset": "wifi_hotspots",
+      "unit": "hotspots/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "wifi_hotspots_all",
+      "description": null
+    }
+  ]
+}
