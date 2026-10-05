@@ -379,7 +379,9 @@
         const kind = { raw: "", per_km2: "/km²", per_capita: "/1k", share: "share" }[f.kind] ?? f.kind;
         const tag = f.feature === state.x ? `<b class="x-tag">X</b>` : f.feature === state.y ? `<b class="y-tag">Y</b>` : kind;
         row.innerHTML = `<span class="title">${f.title}</span><span class="kind">${tag}</span>`;
-        row.onclick = e => setAxes(e.shiftKey ? { y: f.feature } : { x: f.feature });
+        // ⌘/Ctrl-click or right-click sets Y. On macOS, Ctrl-click arrives as contextmenu.
+        row.onclick = e => setAxes(e.metaKey || e.ctrlKey ? { y: f.feature } : { x: f.feature });
+        row.oncontextmenu = e => { e.preventDefault(); setAxes({ y: f.feature }); };
         list.appendChild(row);
       }
     }
@@ -440,6 +442,8 @@
     $(sel).querySelectorAll("button").forEach(b => b.classList.toggle("active", b.dataset[attr] === value));
   }
 
+  const Y_SHORTCUT = /Mac|iPhone|iPad/.test(navigator.platform) ? "⌘-click" : "ctrl-click";
+
   async function init() {
     try {
       state.manifest = await api("/api/manifest");
@@ -457,6 +461,7 @@
     state.y = ids.has(h.y) ? h.y : (ids.has(DEFAULT_Y) ? DEFAULT_Y : state.manifest.features[1]?.feature ?? state.x);
     if (["quantile", "linear", "log"].includes(h.scale)) state.scale = h.scale;
 
+    $("#y-shortcut").textContent = Y_SHORTCUT;
     $("#levels").innerHTML = state.manifest.levels.map(l =>
       `<button data-level="${l.level}" title="${l.title}">${l.level.replace("_", " ")}</button>`).join("");
     setActive("#levels", "level", state.level);
