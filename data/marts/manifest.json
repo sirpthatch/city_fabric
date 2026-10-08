@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-10-05T15:57:20+00:00",
+  "built_at": "2026-10-08T23:03:20+00:00",
   "levels": [
     {
       "level": "borough",
@@ -23,20 +23,21 @@
     }
   ],
   "datasets": [
+    "dob_permits",
     "affordable_housing",
     "facilities",
+    "heat_complaints",
     "wifi_hotspots",
     "forestry_trees",
     "grocery_stores",
     "restaurant_inspections",
+    "public_restrooms",
+    "dob_job_filings",
+    "landmarks",
     "acs_tracts",
     "city_property",
     "linknyc_kiosks",
-    "service_requests_311",
-    "dob_job_filings",
-    "landmarks",
-    "public_restrooms",
-    "dob_permits"
+    "service_requests_311"
   ],
   "features": [
     {
@@ -1360,6 +1361,123 @@
       "unit": "stores/km\u00b2",
       "kind": "per_km2",
       "base_feature": "supermarkets",
+      "description": null
+    },
+    {
+      "feature": "heat_buildings",
+      "title": "Buildings with heat complaints, last heat season",
+      "dataset": "heat_complaints",
+      "unit": "buildings",
+      "kind": "raw",
+      "base_feature": "heat_buildings",
+      "description": null
+    },
+    {
+      "feature": "heat_buildings_per_1k",
+      "title": "Buildings with heat complaints, last heat season per 1k residents",
+      "dataset": "heat_complaints",
+      "unit": "buildings/1k residents",
+      "kind": "per_capita",
+      "base_feature": "heat_buildings",
+      "description": null
+    },
+    {
+      "feature": "heat_buildings_per_km2",
+      "title": "Buildings with heat complaints, last heat season per km\u00b2",
+      "dataset": "heat_complaints",
+      "unit": "buildings/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "heat_buildings",
+      "description": null
+    },
+    {
+      "feature": "heat_change_vs_prior_season",
+      "title": "Change in heat complaints vs. prior season",
+      "dataset": "heat_complaints",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "heat_change_vs_prior_season",
+      "description": null
+    },
+    {
+      "feature": "heat_chronic_buildings",
+      "title": "Chronic heat buildings (10+ complaints in a season)",
+      "dataset": "heat_complaints",
+      "unit": "buildings",
+      "kind": "raw",
+      "base_feature": "heat_chronic_buildings",
+      "description": null
+    },
+    {
+      "feature": "heat_chronic_buildings_per_1k",
+      "title": "Chronic heat buildings (10+ complaints in a season) per 1k residents",
+      "dataset": "heat_complaints",
+      "unit": "buildings/1k residents",
+      "kind": "per_capita",
+      "base_feature": "heat_chronic_buildings",
+      "description": null
+    },
+    {
+      "feature": "heat_complaints",
+      "title": "Heat/hot water complaints, last heat season",
+      "dataset": "heat_complaints",
+      "unit": "complaints",
+      "kind": "raw",
+      "base_feature": "heat_complaints",
+      "description": null
+    },
+    {
+      "feature": "heat_complaints_per_1k",
+      "title": "Heat/hot water complaints, last heat season per 1k residents",
+      "dataset": "heat_complaints",
+      "unit": "complaints/1k residents",
+      "kind": "per_capita",
+      "base_feature": "heat_complaints",
+      "description": null
+    },
+    {
+      "feature": "heat_complaints_per_building",
+      "title": "Heat complaints per complaining building",
+      "dataset": "heat_complaints",
+      "unit": "complaints",
+      "kind": "raw",
+      "base_feature": "heat_complaints_per_building",
+      "description": null
+    },
+    {
+      "feature": "heat_complaints_per_km2",
+      "title": "Heat/hot water complaints, last heat season per km\u00b2",
+      "dataset": "heat_complaints",
+      "unit": "complaints/km\u00b2",
+      "kind": "per_km2",
+      "base_feature": "heat_complaints",
+      "description": null
+    },
+    {
+      "feature": "heat_median_days_to_close",
+      "title": "Median days to close heat complaints",
+      "dataset": "heat_complaints",
+      "unit": "days",
+      "kind": "raw",
+      "base_feature": "heat_median_days_to_close",
+      "description": null
+    },
+    {
+      "feature": "heat_pct_entire_building",
+      "title": "Share of heat complaints about the entire building",
+      "dataset": "heat_complaints",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "heat_pct_entire_building",
+      "description": null
+    },
+    {
+      "feature": "heat_pct_from_chronic",
+      "title": "Share of heat complaints from chronic buildings",
+      "dataset": "heat_complaints",
+      "unit": "fraction",
+      "kind": "raw",
+      "base_feature": "heat_pct_from_chronic",
       "description": null
     },
     {
